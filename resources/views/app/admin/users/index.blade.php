@@ -44,7 +44,7 @@
             <?php
               $arr = array('success', 'primary', 'info', 'warning', 'danger');
             ?>
-            
+
             <tr onclick="location.href = '{{ route('admin.users.edit', $user['id']) }}'">
               <td style="display: none"></td>
               <td class="product-category">{{ $user["name"] }}</td>
@@ -61,8 +61,14 @@
                 </div>
               </td>
               <td class="product-action">
-                <span class="action-edit"><i class="feather icon-edit"></i></span>
-                <span class="action-delete"><i class="feather icon-trash"></i></span>
+                <span class="action-edit"><a href="{{ route('admin.users.edit', $user['id']) }}" ><i class="feather icon-edit"></i></a></span>
+                <span class="action-delete">
+                  <form method="POST" action="{{ route('admin.users.destroy', $user['id']) }}" >
+                   @csrf
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button class="btn"><i class="feather icon-trash"></i></button>
+                  </form>
+                </span>
               </td>
             </tr>
           @endforeach
@@ -70,7 +76,7 @@
       </table>
     </div>
     {{-- DataTable ends --}}
-    <style> 
+    <style>
       .action-btns {
         display: none !important
       }

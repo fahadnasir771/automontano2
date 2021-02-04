@@ -68,6 +68,8 @@ class UserController extends Controller
     public function edit($id)
     {
         //
+        $data = User::where('id', $id)->first();
+        return view('app.admin.users.edit',compact('data'));
     }
 
     /**
@@ -80,6 +82,16 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $update = User::find($id);
+        $update->name = $request->name;
+        $update->email = $request->email;
+        $update->role = $request->role;
+        $update->save();
+        return redirect()->route('admin.users.index')->with([
+          'flashSuccess' => $request->name . ' account has been updated succesfully'
+        ]);
+
     }
 
     /**
@@ -91,5 +103,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        $data = User::find($id);
+        $data->delete();
+        return redirect()->route('admin.users.index')->with([
+          'flashSuccess' => $data->name . ' account has been removed succesfully'
+        ]);
     }
 }
