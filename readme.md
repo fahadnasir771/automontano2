@@ -1,13 +1,13 @@
-#Automontano
-The project to maintain the workglow of a menchanic shop
+# Automontano
+The project to maintain the workflow of a car mechanic shop
 
-##ENV file
+## ENV file
 Change the .env file to match your database credentials
 
-##Migration
+## Migration
 php artisan migrate to migrate database
 
-##Seed
+## Seed
 php artisan db:seed to create the admin user 
 
   - User: fahad@admin.com
