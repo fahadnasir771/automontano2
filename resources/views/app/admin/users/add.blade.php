@@ -46,21 +46,21 @@
                   <div class="form-group col-6">
                     <div class="controls">
                       <label>E-mail</label>
-                      <input type="text" class="form-control" name="email" placeholder="Name" value="{{old('email')}}" required
+                      <input type="text" class="form-control" name="email" placeholder="E-mail" value="{{old('email')}}" required
                         data-validation-required-message="This e-mail field is required">
                     </div>
                   </div>
                   <div class="form-group col-6">
                     <div class="controls">
                       <label>Password</label>
-                      <input type="password" class="form-control" name="password" placeholder="Name" value="{{old('password')}}" required
-                        data-validation-required-message="This e-mail field is required">
+                      <input type="password" class="form-control" name="password" placeholder="Password" value="{{old('password')}}" required
+                        data-validation-required-message="This password field is required">
                     </div>
                   </div>
                   <div class="form-group col-6">
                     <label>Role</label>
                     <select class="form-control" name="role">
-                      <option value="1">Admin</option>
+                      <option value=""  hidden selected>Select Role</option>
                       <option value="2">Acceptor</option>
                       <option value="3">Operator</option>
                       <option value="4">Customer</option>
