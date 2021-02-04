@@ -12,3 +12,9 @@ php artisan db:seed to create the admin user
 
   - User: fahad@admin.com
   - Pass: 123456
+
+## Roles ID:
+  - 1 -> Admin
+  - 2 -> Acceptor
+  - 3 -> Operator
+  - 4 -> Customer 
