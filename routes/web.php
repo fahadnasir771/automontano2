@@ -29,6 +29,8 @@ Route::group([
 
   //User MS
   Route::resource('users', 'UserController');
+  // WorkSheet Object
+  Route::resource('worksheetobject', 'WorksheetObjectController');
 });
 
 //Acceptor
@@ -50,7 +52,7 @@ Route::group([
 ], function() {
   Route::view('dashboard', 'app.operator.dashboard')->name('dashboard');
 });
-  
+
 //Customer
 Route::group([
   'as' => 'customer.',

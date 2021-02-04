@@ -793,7 +793,27 @@
           "icon": "feather icon-circle",
           "i18n": "nav.app_user_view"
         }
-        
+
+      ]
+    },
+    {
+      "url": "",
+      "name": "WorkSheetObject",
+      "icon": "feather icon-unlock",
+      "submenu": [
+        {
+          "url": "/admin/worksheetobject",
+          "name": "WorkSheetObject",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_list"
+        },
+        {
+          "url": "/admin/worksheetobject/create",
+          "name": "Create WorkSheetObject",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_view"
+        }
+
       ]
     }
   ],
