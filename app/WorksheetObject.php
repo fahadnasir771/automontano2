@@ -18,9 +18,6 @@ class WorksheetObject extends Model
       'updated_at',
     ];
     public function operators(){
-      return $this->belongsToMany('App\User','user_worksheet_objects','worksheet_object_id','user_id');
-    }
-    public function UserWorksheetObjects(){
-      return $this->belongsToMany('App\UserWorksheetObject','user_worksheet_objects','worksheet_object_id' ,'user_id');
+      return $this->belongsToMany(User::class);
     }
 }

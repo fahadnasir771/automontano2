@@ -89,7 +89,7 @@ class UserController extends Controller
         $update->role = $request->role;
         $update->save();
         return redirect()->route('admin.users.index')->with([
-          'flashSuccess' => $request->name . ' account has been updated succesfully'
+          'flashInfo' => $request->name . ' account has been updated succesfully'
         ]);
 
     }
@@ -106,7 +106,7 @@ class UserController extends Controller
         $data = User::find($id);
         $data->delete();
         return redirect()->route('admin.users.index')->with([
-          'flashSuccess' => $data->name . ' account has been removed succesfully'
+          'flashDanger' => $data->name . ' account has been removed succesfully'
         ]);
     }
 }

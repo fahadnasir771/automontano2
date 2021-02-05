@@ -19,7 +19,7 @@ class WorksheetObjectController extends Controller
     {
         //
         return view('app.admin.worksheetobject.index', [
-          'worksheet' => WorksheetObject::get()
+          'worksheet_objects' => WorksheetObject::get()
         ]);
     }
 
@@ -50,7 +50,7 @@ class WorksheetObjectController extends Controller
         $data->min_time = $request->min_time;
         $data->max_time = $request->max_time;
         $data->save();
-        $data->UserWorksheetObjects()->attach($request->operators);
+        $data->operators()->attach($request->operators);
         return redirect()->route('admin.worksheetobject.index')->with([
           'flashSuccess' => $request->title . ' worksheet object has been created succesfully'
       ]);

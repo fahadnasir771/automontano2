@@ -798,18 +798,18 @@
     },
     {
       "url": "",
-      "name": "WorkSheetObject",
+      "name": "WorkSheet Object",
       "icon": "feather icon-unlock",
       "submenu": [
         {
           "url": "/admin/worksheetobject",
-          "name": "WorkSheetObject",
+          "name": "All Objects",
           "icon": "feather icon-circle",
           "i18n": "nav.app_user_list"
         },
         {
           "url": "/admin/worksheetobject/create",
-          "name": "Create WorkSheetObject",
+          "name": "Create Object",
           "icon": "feather icon-circle",
           "i18n": "nav.app_user_view"
         }
