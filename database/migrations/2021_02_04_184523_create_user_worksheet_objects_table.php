@@ -15,9 +15,7 @@ class CreateUserWorksheetObjectsTable extends Migration
     {
         Schema::create('user_worksheet_objects', function (Blueprint $table) {
           $table->unsignedBigInteger('user_id');
-          $table->foreign('user_id')->references('id')->on('users');
           $table->unsignedBigInteger('worksheet_object_id');
-          $table->foreign('worksheet_object_id')->references('id')->on('worksheet_objects');
         });
     }
 

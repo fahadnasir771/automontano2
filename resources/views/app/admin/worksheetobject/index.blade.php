@@ -34,7 +34,7 @@
         <tbody>
           @foreach ($worksheet_objects as $data)
 
-            <tr onclick="location.href = '{{ route('admin.users.edit', $data->id) }}'">
+            <tr onclick="location.href = '{{ route('admin.worksheetobject.edit', $data->id) }}'">
               <td style="display: none"></td>
               <td class="product-category">{{ $data->title }}</td>
               <td class="product-category">{{ $data->min_time }}</td>
@@ -49,9 +49,9 @@
                 @endforeach
               </td>
               <td class="product-action">
-                <span class="action-edit"><a href="{{ route('admin.users.edit', $data->id) }}" ><i class="feather icon-edit"></i></a></span>
+                <span class="action-edit"><a href="{{ route('admin.worksheetobject.edit', $data->id) }}" ><i class="feather icon-edit"></i></a></span>
                 <span class="action-delete">
-                  <form method="POST" style="display: inline-block;" action="{{ route('admin.users.destroy', $data->id) }}" >
+                  <form method="POST" style="display: inline-block;" action="{{ route('admin.worksheetobject.destroy', $data->id) }}" >
                    @csrf
                     <input type="hidden" name="_method" value="DELETE">
                     <button class="btn"><i style="color: red" class="feather icon-trash"></i></button>

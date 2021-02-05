@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Add Worksheet Object')
+@section('title', 'Update Worksheet Object')
 
 @section('vendor-style')
     {{-- Page Css files --}}
@@ -34,14 +34,15 @@
                         <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
                             <!-- users edit account form start -->
                             @if (count($operators) > 0)
-                                <form novalidate method="POST" action="{{ route('admin.worksheetobject.store') }}">
+                                <form novalidate method="POST" action="{{ route('admin.worksheetobject.update', $data->id) }}">
                                     @csrf
+                                    <input type="hidden" name="_method" value="PUT">
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <div class="controls">
                                                 <label>Title</label>
                                                 <input type="text" class="form-control" placeholder="Title" name="title"
-                                                    value="{{ old('title') }}" required
+                                                    value="{{ $data->title }}" required
                                                     data-validation-required-message="This name field is required">
                                             </div>
                                         </div>
@@ -49,7 +50,7 @@
                                         <fieldset class="controls form-group col-6  position-relative">
                                             <label>Min. Completion Time</label>
                                             <input type="number" class="form-control"  placeholder="Min. Completion Time"
-                                                name="min_time" value="{{ old('min_time') }}" required
+                                                name="min_time" value="{{ $data->min_time }}" required
                                                 data-validation-required-message="This Minimun completion Time field is required">
                                             <div class="form-control-position" style="top: 20px; right: 20px">
                                                 <b>min.</b>
@@ -59,34 +60,30 @@
                                         <fieldset class="controls form-group col-6  position-relative">
                                           <label>Max. Completion Time</label>
                                           <input type="number" class="form-control"  placeholder="Max. Completion Time"
-                                              name="max_time" value="{{ old('max_time') }}" required
+                                              name="max_time" value="{{ $data->max_time }}" required
                                               data-validation-required-message="This maximun completion time field is required">
                                           <div class="form-control-position" style="top: 20px; right: 20px">
                                               <b>max.</b>
                                           </div>
                                       </fieldset>
 
-                                        {{-- <div class="form-group col-6">
-                                            <div class="controls">
-                                                <label>Max. Completion Time</label>
-                                                <input type="number" class="form-control" placeholder="Max. Completion Time"
-                                                    name="max_time" value="{{ old('max_time') }}" required
-                                                    data-validation-required-message="This maximum completion time field is required">
-                                            </div>
-                                        </div> --}}
                                         <div class="form-group col-6">
                                             <label>Operators</label>
                                             <select class="select2 form-control" name="operators[]" multiple>
-                                                @foreach ($operators as $operator)
-                                                    <option value="{{ $operator->id }}">{{ $operator->name }}</option>
-                                                @endforeach
+                                              @for($i=0; $i<count($operators); $i++)
+                                                @isset($data->operators[$i])
+                                                  <option value="{{ $operators[$i]->id }}" @if($data->operators[$i]->id == $operators[$i]->id) selected  @endif>{{ $operators[$i]->name }}</option>
+                                                @else
+                                                <option value="{{ $operators[$i]->id }}" >{{ $operators[$i]->name }}</option>
+                                                @endisset()
+                                              @endfor
                                             </select>
                                         </div>
 
 
                                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
                                             <button type="submit"
-                                                class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">Create Worksheet
+                                                class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">Update Worksheet
                                                 Object</button>
                                         </div>
                                     </div>

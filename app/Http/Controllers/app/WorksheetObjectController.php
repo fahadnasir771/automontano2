@@ -73,9 +73,13 @@ class WorksheetObjectController extends Controller
      * @param  \App\WorkSheetObject  $workSheetObject
      * @return \Illuminate\Http\Response
      */
-    public function edit(WorkSheetObject $workSheetObject)
+    public function edit($id)
     {
         //
+        return view('app.admin.worksheetobject.edit', [
+          'data' => WorksheetObject::find($id),
+          'operators' => User::where('role', 3)->get(),
+        ]);
     }
 
     /**
@@ -85,9 +89,19 @@ class WorksheetObjectController extends Controller
      * @param  \App\WorkSheetObject  $workSheetObject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, WorkSheetObject $workSheetObject)
+    public function update(Request $request, $id)
     {
         //
+        $update = WorksheetObject::find($id);
+        $update->title = $request->title;
+        $update->min_time = $request->min_time;
+        $update->max_time = $request->max_time;
+        $update->save();
+        $update->operators()->detach();
+        $update->operators()->attach($request->operators);
+        return redirect()->route('admin.worksheetobject.index')->with([
+          'flashSuccess' => $update->title . ' worksheet object has been updated succesfully'
+        ]);
     }
 
     /**
@@ -96,8 +110,14 @@ class WorksheetObjectController extends Controller
      * @param  \App\WorkSheetObject  $workSheetObject
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WorkSheetObject $workSheetObject)
+    public function destroy($id)
     {
         //
+        $data = WorksheetObject::find($id);
+        $data->delete();
+        return redirect()->route('admin.worksheetobject.index')->with([
+          'flashSuccess' => $data->title . ' worksheet object has been removed succesfully'
+        ]);
+
     }
 }
