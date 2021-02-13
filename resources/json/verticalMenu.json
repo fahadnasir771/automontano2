@@ -815,6 +815,26 @@
         }
 
       ]
+    },
+    {
+      "url": "",
+      "name": "Task",
+      "icon": "feather icon-unlock",
+      "submenu": [
+        {
+          "url": "/admin/task",
+          "name": "All Task",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_list"
+        },
+        {
+          "url": "/admin/task/create",
+          "name": "Create Task",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_view"
+        }
+
+      ]
     }
   ],
   "acceptorSidebar": [
