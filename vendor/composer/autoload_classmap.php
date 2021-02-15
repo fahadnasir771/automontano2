@@ -40,12 +40,9 @@ return array(
     'App\\Http\\Controllers\\ToDoAppController' => $baseDir . '/app/Http/Controllers/ToDoAppController.php',
     'App\\Http\\Controllers\\UserPagesController' => $baseDir . '/app/Http/Controllers/UserPagesController.php',
     'App\\Http\\Controllers\\UserStatsAppController' => $baseDir . '/app/Http/Controllers/UserStatsAppController.php',
-<<<<<<< HEAD
     'App\\Http\\Controllers\\app\\ChatController' => $baseDir . '/app/Http/Controllers/app/ChatController.php',
     'App\\Http\\Controllers\\app\\OperatorController' => $baseDir . '/app/Http/Controllers/app/OperatorController.php',
-=======
     'App\\Http\\Controllers\\app\\TaskController' => $baseDir . '/app/Http/Controllers/app/TaskController.php',
->>>>>>> d8cdfab148fff2265c2e721d1970c1ace08349db
     'App\\Http\\Controllers\\app\\UserController' => $baseDir . '/app/Http/Controllers/app/UserController.php',
     'App\\Http\\Controllers\\app\\WorksheetController' => $baseDir . '/app/Http/Controllers/app/WorksheetController.php',
     'App\\Http\\Controllers\\app\\WorksheetObjectController' => $baseDir . '/app/Http/Controllers/app/WorksheetObjectController.php',
@@ -72,7 +69,6 @@ return array(
     'App\\Providers\\MenuServiceProvider' => $baseDir . '/app/Providers/MenuServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Task' => $baseDir . '/app/Task.php',
-    'App\\TaskOperator' => $baseDir . '/app/TaskOperator.php',
     'App\\TaskUser' => $baseDir . '/app/TaskUser.php',
     'App\\User' => $baseDir . '/app/User.php',
     'App\\UserWorksheetObject' => $baseDir . '/app/UserWorksheetObject.php',

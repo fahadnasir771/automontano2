@@ -65,7 +65,15 @@
                                               <b>max.</b>
                                           </div>
                                       </fieldset>
-
+                                      {{-- <select class="select2 form-control" name="operators[]" multiple>
+                                        @for($i=0; $i<count($operators); $i++)
+                                          @isset($data->operators[$i])
+                                            <option value="{{ $operators[$i]->id }}" @if($data->operators[$i]->id == $operators[$i]->id) selected  @endif>{{ $operators[$i]->name }}</option>
+                                          @else
+                                          <option value="{{ $operators[$i]->id }}" >{{ $operators[$i]->name }}</option>
+                                          @endisset()
+                                        @endfor
+                                      </select> --}}
                                         <div class="form-group col-6">
                                             <label>Operators</label>
                                             <select class="select2 form-control" name="operators[]" multiple>
@@ -74,7 +82,7 @@
                                                   <option value="{{ $operators[$i]->id }}" @if($data->operators[$i]->id == $operators[$i]->id) selected  @endif>{{ $operators[$i]->name }}</option>
                                                 @else
                                                 <option value="{{ $operators[$i]->id }}" >{{ $operators[$i]->name }}</option>
-                                                @endisset()
+                                                @endisset
                                               @endfor
                                             </select>
                                         </div>
