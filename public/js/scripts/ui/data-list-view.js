@@ -25,13 +25,13 @@ $(document).ready(function() {
       sLengthMenu: "_MENU_",
       sSearch: ""
     },
-    aLengthMenu: [[50,100,150], [50,100,150]],
+    aLengthMenu: [[4, 10, 15, 20], [4, 10, 15, 20]],
     select: {
       style: "multi"
     },
     order: [[1, "asc"]],
     bInfo: false,
-    pageLength: 50,
+    pageLength: 4,
     buttons: [
       {
         text: "<i class='feather icon-plus'></i> Add New",

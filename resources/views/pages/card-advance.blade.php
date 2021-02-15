@@ -27,6 +27,8 @@
           </div>
         </div>
       </div>
+
+
       <div class="col-xl-4 col-md-6 col-sm-12">
         <div class="card">
           <div class="card-content">
@@ -50,6 +52,8 @@
           </div>
         </div>
       </div>
+
+      
       <div class="col-xl-4 col-md-6 col-sm-12">
         <div class="card">
           <div class="card-content">

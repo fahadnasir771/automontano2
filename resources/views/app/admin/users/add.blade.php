@@ -63,7 +63,7 @@
                       <option value=""  hidden selected>Select Role</option>
                       <option value="2">Acceptor</option>
                       <option value="3">Operator</option>
-                      <option value="4">Customer</option>
+                      {{-- <option value="4">Customer</option> --}}
                     </select>
                   </div>
                   

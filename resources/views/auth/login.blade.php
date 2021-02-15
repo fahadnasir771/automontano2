@@ -33,12 +33,12 @@
                               @csrf
                               <fieldset class="form-label-group form-group position-relative has-icon-left">
 
-                                  <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="E-Mail Address" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                  <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Phone Number" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                   <div class="form-control-position">
                                       <i class="feather icon-user"></i>
                                   </div>
-                                  <label for="email">E-Mail Address</label>
+                                  <label for="email">Phone Number</label>
                                   @error('email')
                                       <span class="invalid-feedback" role="alert">
                                           <strong>{{ $message }}</strong>

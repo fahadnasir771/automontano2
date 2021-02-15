@@ -12,11 +12,11 @@
   }
 
   // Chat area
-  if($('.chat-application .user-chats').length > 0){
-    var chat_user = new PerfectScrollbar(".user-chats", {
-      wheelPropagation: false
-    });
-  }
+  // if($('.chat-application .user-chats').length > 0){
+  //   var chat_user = new PerfectScrollbar(".user-chats", {
+  //     wheelPropagation: false
+  //   });
+  // }
 
   // User profile right area
   if($('.chat-application .user-profile-sidebar-area').length > 0){
@@ -118,7 +118,7 @@
   }
 
   // Scroll Chat area
-  $(".user-chats").scrollTop($(".user-chats > .chats").height());
+  // $(".user-chats").scrollTop($(".user-chats > .chats").height());
 
   // Filter
   $(".chat-application #chat-search").on("keyup", function() {

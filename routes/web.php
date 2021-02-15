@@ -1,6 +1,8 @@
 <?php
 
+use App\Worksheet;
 use GuzzleHttp\Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,9 +31,20 @@ Route::group([
 
   //User MS
   Route::resource('users', 'UserController');
-  
+
   // WorkSheet Object
   Route::resource('worksheetobject', 'WorksheetObjectController');
+
+  // Worksheet
+  Route::resource('worksheets', 'WorksheetController');
+  Route::get('vehicle-worksheets', 'WorksheetController@vehicle_data');
+  Route::get('all-timeline', 'WorksheetController@all_timeline');
+  Route::get('timeline-by-worksheet', 'WorksheetController@timeline_by_worksheet');
+  Route::get('timeline-by-operator', 'WorksheetController@timeline_by_operator');
+
+  //Chat
+  Route::resource('chat', 'ChatController');
+  Route::get('chat_status/{id}', 'ChatController@chat_status');
 });
 
 //Acceptor
@@ -42,6 +55,20 @@ Route::group([
   'middleware' => 'acceptor'
 ], function() {
   Route::view('dashboard', 'app.acceptor.dashboard')->name('dashboard');
+
+  // WorkSheet Object
+  Route::resource('worksheetobject', 'WorksheetObjectController');
+
+  // Worksheet
+  Route::resource('worksheets', 'WorksheetController');
+  Route::get('vehicle-worksheets', 'WorksheetController@vehicle_data');
+  Route::get('all-timeline', 'WorksheetController@all_timeline');
+  Route::get('timeline-by-worksheet', 'WorksheetController@timeline_by_worksheet');
+  Route::get('timeline-by-operator', 'WorksheetController@timeline_by_operator');
+
+  //Chat
+  Route::resource('chat', 'ChatController');
+  Route::get('chat_status/{id}', 'ChatController@chat_status');
 });
 
 //Operator
@@ -52,6 +79,14 @@ Route::group([
   'middleware' => 'operator'
 ], function() {
   Route::view('dashboard', 'app.operator.dashboard')->name('dashboard');
+
+  // Jobs
+  Route::get('worksheets', 'OperatorController@worksheets')->name('worksheets.index');
+  Route::post('start-timer', 'OperatorController@timer')->name('timer');
+
+  //Chat
+  Route::resource('chat', 'ChatController');
+  Route::get('chat_status/{id}', 'ChatController@chat_status');
 });
 
 //Customer
@@ -61,7 +96,21 @@ Route::group([
   'namespace' => 'app',
   'middleware' => 'customer'
 ], function() {
-  Route::view('dashboard', 'app.customer.dashboard')->name('dashboard');
+  Route::get('dashboard', function(){
+    // return Worksheet::with('user_customer')->get();;
+    return view('app.customer.dashboard')->with([
+      'worksheets' => Worksheet::with('user_customer')->where('customer_accepted', '0')->get()
+    ]);
+  })->name('dashboard');
+
+  Route::get('submit', function(Request $req){
+    Worksheet::where('id', $req->wid)->update([
+      'customer_accepted' => 1,
+      // 'customer_accept_at' =>
+    ]);
+
+    return redirect()->back();
+  });
 });
 
 /*

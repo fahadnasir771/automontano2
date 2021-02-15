@@ -93,6 +93,12 @@
 
         {{-- include default scripts --}}
         @include('panels/scripts')
+        <script>
+            $('.dev').on('click', () => {
+              alert('Under Developemnt');
+              return false;
+            });
+          </script>
 
     </body>
 

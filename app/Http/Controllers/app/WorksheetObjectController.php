@@ -7,6 +7,7 @@ use App\UserWorksheetObject;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class WorksheetObjectController extends Controller
 {
@@ -19,7 +20,8 @@ class WorksheetObjectController extends Controller
     {
         //
         return view('app.admin.worksheetobject.index', [
-          'worksheet_objects' => WorksheetObject::get()
+          'worksheet_objects' => WorksheetObject::get(),
+          'route' => Route::current()->uri //as this controller is being used for 2 roles so we need to redirect to the repective route for post requestz
         ]);
     }
 
@@ -30,9 +32,11 @@ class WorksheetObjectController extends Controller
      */
     public function create()
     {
-        //
+        // dd(str_contains(Route::current()->uri, 'admin/') ? true : false);
+        
         return view('app.admin.worksheetobject.add', [
           'operators' => User::where('role', 3)->get(),
+          'route' => Route::current()->uri //as this controller is being used for 2 roles so we need to redirect to the repective route for post request
         ]);
     }
 
@@ -50,10 +54,19 @@ class WorksheetObjectController extends Controller
         $data->min_time = $request->min_time;
         $data->max_time = $request->max_time;
         $data->save();
+        
         $data->operators()->attach($request->operators);
-        return redirect()->route('admin.worksheetobject.index')->with([
-          'flashSuccess' => $request->title . ' worksheet object has been created succesfully'
-      ]);
+        if(str_contains(Route::current()->uri, 'admin/')){
+          return redirect()->route('admin.worksheetobject.index')->with([
+            'flashSuccess' => $request->title . ' worksheet object has been created succesfully'
+          ]);
+        }else{
+          return redirect()->route('acceptor.worksheetobject.index')->with([
+            'flashSuccess' => $request->title . ' worksheet object has been created succesfully'
+          ]);
+        }
+
+        
     }
 
     /**
@@ -79,6 +92,7 @@ class WorksheetObjectController extends Controller
         return view('app.admin.worksheetobject.edit', [
           'data' => WorksheetObject::find($id),
           'operators' => User::where('role', 3)->get(),
+          'route' => Route::current()->uri //as this controller is being used for 2 roles so we need to redirect to the repective route for post requestz
         ]);
     }
 
@@ -99,9 +113,18 @@ class WorksheetObjectController extends Controller
         $update->save();
         $update->operators()->detach();
         $update->operators()->attach($request->operators);
-        return redirect()->route('admin.worksheetobject.index')->with([
-          'flashSuccess' => $update->title . ' worksheet object has been updated succesfully'
-        ]);
+
+        if(str_contains(Route::current()->uri, 'admin/')){
+          return redirect()->route('admin.worksheetobject.index')->with([
+            'flashInfo' => $update->title . ' worksheet object has been updated succesfully'
+          ]);
+        }else{
+          return redirect()->route('acceptor.worksheetobject.index')->with([
+            'flashInfo' => $update->title . ' worksheet object has been updated succesfully'
+          ]);
+        }
+
+        
     }
 
     /**
@@ -115,9 +138,15 @@ class WorksheetObjectController extends Controller
         //
         $data = WorksheetObject::find($id);
         $data->delete();
-        return redirect()->route('admin.worksheetobject.index')->with([
-          'flashSuccess' => $data->title . ' worksheet object has been removed succesfully'
-        ]);
+        if(str_contains(Route::current()->uri, 'admin/')){
+          return redirect()->route('admin.worksheetobject.index')->with([
+            'flashDanger' => $data->title . ' worksheet object has been deleted succesfully'
+          ]);
+        }else{
+          return redirect()->route('acceptor.worksheetobject.index')->with([
+            'flashDanger' => $data->title . ' worksheet object has been deleted succesfully'
+          ]);
+        }
 
     }
 }

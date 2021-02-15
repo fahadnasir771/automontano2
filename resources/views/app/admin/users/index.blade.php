@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'List View')
+@section('title', 'All users')
 
 @section('vendor-style')
         {{-- vendor files --}}
@@ -16,7 +16,7 @@
 @endsection
 
 @section('content')
-{{-- Data list view starts --}}
+{{-- Data All users starts --}}
 <section id="data-list-view" class="data-list-view-header">
     {{-- DataTable starts --}}
     <div class="table-responsive">
@@ -84,7 +84,7 @@
 
 
   </section>
-  {{-- Data list view end --}}
+  {{-- Data All users end --}}
 @endsection
 @section('vendor-script')
 {{-- vendor js files --}}

@@ -203,6 +203,7 @@
   text-align: center;
   height: calc(100vh - 23.5rem);
   height: calc(var(--vh, 1vh) * 100 - 23.5rem);
+  overflow-y: scroll;
 }
 
 .chat-application .chat-app-window .start-chat-area,

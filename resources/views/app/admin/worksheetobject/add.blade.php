@@ -34,7 +34,7 @@
                         <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
                             <!-- users edit account form start -->
                             @if (count($operators) > 0)
-                                <form novalidate method="POST" action="{{ route('admin.worksheetobject.store') }}">
+                                <form novalidate method="POST" action="{{ (str_contains($route, 'admin/')) ? route('admin.worksheetobject.store') : route('acceptor.worksheetobject.store') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="form-group col-6">

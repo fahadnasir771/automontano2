@@ -20,4 +20,16 @@ class WorksheetObject extends Model
     public function operators(){
       return $this->belongsToMany(User::class);
     }
+
+    protected $guarded = [];
+
+    public function worksheet()
+    {
+      return $this->belongsTo(Worksheet::class);
+    }
+
+    public function job_timers()
+    {
+      return $this->hasMany(JobTimer::class);
+    }
 }

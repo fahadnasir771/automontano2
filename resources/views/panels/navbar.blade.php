@@ -118,10 +118,10 @@
                                 
                             ?>
                         </span></div><span><img class="round"
-                                src="{{ asset('images/portrait/small/avatar-s-11.jpg') }}" alt="avatar" height="40"
+                                src="{{ Gravatar::src(Auth::user()->email ?? '')  }}" alt="avatar" height="40"
                                 width="40" /></span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="page-user-profile"><i
+                    <div class="dropdown-menu dropdown-menu-right"><a onclick="alert('Under Development'); return false;" class="dropdown-item" href="page-user-profile"><i
                                 class="feather icon-user"></i> Edit Profile</a>
                         <div class="dropdown-divider"></div>
                     

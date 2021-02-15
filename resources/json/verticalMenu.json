@@ -772,34 +772,15 @@
       "url": "/admin/dashboard",
       "name": "Dashboard",
       "slug": "dashboard",
-      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "badge": "-",
+      "badgeClass": "badge badge-danger badge-pill float-right mr-2",
       "icon": "feather icon-home"
     },
     { "url": "", "navheader": "Modules", "icon": "" },
     {
       "url": "",
-      "name": "User",
-      "icon": "feather icon-unlock",
-      "submenu": [
-        {
-          "url": "/admin/users",
-          "name": "All Users",
-          "icon": "feather icon-circle",
-          "i18n": "nav.app_user_list"
-        },
-        {
-          "url": "/admin/users/create",
-          "name": "Create User",
-          "icon": "feather icon-circle",
-          "i18n": "nav.app_user_view"
-        }
-
-      ]
-    },
-    {
-      "url": "",
-      "name": "WorkSheet Object",
-      "icon": "feather icon-unlock",
+      "name": "Worksheet Object",
+      "icon": "feather icon-settings",
       "submenu": [
         {
           "url": "/admin/worksheetobject",
@@ -815,15 +796,188 @@
         }
 
       ]
+    },
+    {
+      "url": "",
+      "name": "Worksheet",
+      "icon": "feather icon-file-text",
+      "submenu": [
+        {
+          "url": "/admin/worksheets",
+          "name": "All WorkSheets",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_list"
+        },
+        {
+          "url": "/admin/worksheets/create",
+          "name": "Create WorkSheet",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_view"
+        }
+
+      ]
+    },
+    {
+      "url": "/admin/vehicle-worksheets",
+      "name": "Vehicle Data",
+      "icon": "feather icon-calendar"
+      
+    },
+    {
+      "url": "/admin/all-timeline",
+      "name": "View All Timeline",
+      "icon": "feather icon-clock"
+      
+    },
+    {
+      "url": "/admin/timeline-by-operator",
+      "name": "Operator Timeline",
+      "icon": "feather icon-crosshair"
+      
+    },
+    {
+      "url": "",
+      "name": "Task",
+      "slug": "dashboard",
+      "badge": "-",
+      "badgeClass": "badge badge-danger badge-pill float-right mr-2",
+      "icon": "feather icon-check-circle",
+      "submenu": [
+        {
+          "url": "",
+          "name": "All Tasks",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        },
+        {
+          "url": "",
+          "name": "Create Task",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_ecommerce"
+        }
+      ]
+    },
+    {
+      "url": "/admin/chat",
+      "name": "Chat",
+      "icon": "feather icon-message-circle"
+    },
+    {
+      "url": "",
+      "name": "Manage Users",
+      "icon": "feather icon-users",
+      "submenu": [
+        {
+          "url": "/admin/users",
+          "name": "All Users",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_list"
+        },
+        {
+          "url": "/admin/users/create",
+          "name": "Create User",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_view"
+        }
+
+      ]
     }
+    
   ],
   "acceptorSidebar": [
     {
       "url": "/acceptor/dashboard",
       "name": "Dashboard",
       "slug": "dashboard",
-      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "badge": "-",
+      "badgeClass": "badge badge-danger badge-pill float-right mr-2",
       "icon": "feather icon-home"
+    },
+    { "url": "", "navheader": "Modules", "icon": "" },
+    {
+      "url": "",
+      "name": "Worksheet Object",
+      "icon": "feather icon-settings",
+      "submenu": [
+        {
+          "url": "/acceptor/worksheetobject",
+          "name": "All Objects",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_list"
+        },
+        {
+          "url": "/acceptor/worksheetobject/create",
+          "name": "Create Object",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_view"
+        }
+
+      ]
+    },
+    {
+      "url": "",
+      "name": "Worksheet",
+      "icon": "feather icon-file-text",
+      "submenu": [
+        {
+          "url": "/acceptor/worksheets",
+          "name": "All WorkSheets",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_list"
+        },
+        {
+          "url": "/acceptor/worksheets/create",
+          "name": "Create WorkSheet",
+          "icon": "feather icon-circle",
+          "i18n": "nav.app_user_view"
+        }
+
+      ]
+    },
+    {
+      "url": "/acceptor/vehicle-worksheets",
+      "name": "Vehicle Data",
+      "icon": "feather icon-calendar"
+      
+    },
+    {
+      "url": "/acceptor/all-timeline",
+      "name": "View All Timeline",
+      "icon": "feather icon-clock"
+      
+    },
+    {
+      "url": "/acceptor/timeline-by-operator",
+      "name": "Operator Timeline",
+      "icon": "feather icon-crosshair"
+      
+    },
+    {
+      "url": "",
+      "name": "Task",
+      "slug": "dashboard",
+      "badge": "-",
+      "badgeClass": "badge badge-danger badge-pill float-right mr-2",
+      "icon": "feather icon-check-circle",
+      "submenu": [
+        {
+          "url": "",
+          "name": "All Tasks",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        },
+        {
+          "url": "",
+          "name": "Create Task",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_ecommerce"
+        }
+      ]
+    },
+    {
+      "url": "/acceptor/chat",
+      "name": "Chat",
+      "icon": "feather icon-message-circle"
     }
   ],
   "operatorSidebar": [
@@ -833,6 +987,19 @@
       "slug": "dashboard",
       "badgeClass": "badge badge-warning badge-pill float-right mr-2",
       "icon": "feather icon-home"
+    },
+    { "url": "", "navheader": "Modules", "icon": "" },
+    {
+      "url": "/operator/worksheets",
+      "name": "Worksheet Jobs",
+      "slug": "worksheet-jobs",
+      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "icon": "feather icon-clipboard"
+    },
+    {
+      "url": "/operator/chat",
+      "name": "Chat",
+      "icon": "feather icon-message-circle"
     }
   ],
   "customerSidebar": [

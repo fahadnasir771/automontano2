@@ -34,7 +34,7 @@
                         <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
                             <!-- users edit account form start -->
                             @if (count($operators) > 0)
-                                <form novalidate method="POST" action="{{ route('admin.worksheetobject.update', $data->id) }}">
+                                <form novalidate method="POST" action="{{ (str_contains($route, 'admin/')) ? route('admin.worksheetobject.update', $data->id) : route('acceptor.worksheetobject.update', $data->id)  }}">
                                     @csrf
                                     <input type="hidden" name="_method" value="PUT">
                                     <div class="row">
@@ -72,7 +72,17 @@
                                             <select class="select2 form-control" name="operators[]" multiple>
                                               @for($i=0; $i<count($operators); $i++)
                                                 @isset($data->operators[$i])
-                                                  <option value="{{ $operators[$i]->id }}" @if($data->operators[$i]->id == $operators[$i]->id) selected  @endif>{{ $operators[$i]->name }}</option>
+                                                  <option value="{{ $operators[$i]->id }}"
+                                                     {{-- @if($data->operators[$i]->id == $operators[$i]->id) selected  @endif --}}
+                                                     @php
+                                                         for ($j=0; $j < count($operators); $j++) { 
+                                                             if($data->operators[$i]->id == $operators[$j]->id){
+                                                                 echo 'selected';
+                                                             }
+                                                         }
+                                                     @endphp
+                                                >
+                                                     {{ $operators[$i]->name }}</option>
                                                 @else
                                                 <option value="{{ $operators[$i]->id }}" >{{ $operators[$i]->name }}</option>
                                                 @endisset()

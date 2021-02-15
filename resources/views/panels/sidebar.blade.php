@@ -3,14 +3,14 @@
 @endphp
 <div class="main-menu menu-fixed {{($configData['theme'] === 'light') ? "menu-light" : "menu-dark"}} menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
-        <ul class="nav navbar-nav flex-row">
+        <ul class="nav navbar-nav flex-row"
             <li class="nav-item mr-auto"><a class="navbar-brand" href="dashboard-analytics">
-                    <div class="brand-logo"></div>
-                    <h2 class="brand-text mb-0">Vuexy</h2>
+                     <img height="50" src="{{ asset('images/logo/SS.png') }}" alt="">
                 </a></li>
             
         </ul>
     </div>
+    <br>
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
@@ -39,7 +39,7 @@
                     }
                     
                   @endphp
-                  <li class="nav-item {{ (request()->is($menu->url)) ? 'active' : '' }} {{ $custom_classes }}">
+                  <li class="nav-item {{ (request()->is(ltrim($menu->url, '/'))) ? 'active' : '' }} {{ $custom_classes }}">
                         <a href="{{ $menu->url }}">
                             <i class="{{ $menu->icon }}"></i>
                             <span class="menu-title" data-i18n="{{ $translation }}">{{ $menu->name }}</span>
