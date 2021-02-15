@@ -45,6 +45,9 @@ Route::group([
   //Chat
   Route::resource('chat', 'ChatController');
   Route::get('chat_status/{id}', 'ChatController@chat_status');
+  
+  // task routes
+  Route::resource('task', 'TaskController');
 });
 
 //Acceptor

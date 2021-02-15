@@ -839,18 +839,16 @@
       "url": "",
       "name": "Task",
       "slug": "dashboard",
-      "badge": "-",
-      "badgeClass": "badge badge-danger badge-pill float-right mr-2",
       "icon": "feather icon-check-circle",
       "submenu": [
         {
-          "url": "",
+          "url": "/admin/task",
           "name": "All Tasks",
           "icon": "feather icon-circle",
           "i18n": "nav.dashboard_analytics"
         },
         {
-          "url": "",
+          "url": "/admin/task/create",
           "name": "Create Task",
           "icon": "feather icon-circle",
           "i18n": "nav.dashboard_ecommerce"
