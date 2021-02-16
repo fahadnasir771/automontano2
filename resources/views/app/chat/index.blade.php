@@ -160,6 +160,7 @@
 
       // Pusher chat post
       channel.bind('chat', function(data) {
+        alert();
         if(my_id == data.from){ //user who sends hte message
           $('#' + data.to).click();
         }else if(my_id == data.to){ //user who receives the message

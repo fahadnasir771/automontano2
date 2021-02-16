@@ -71,21 +71,16 @@
                                             <label>Operators</label>
                                             <select class="select2 form-control" name="operators[]" multiple>
                                               @for($i=0; $i<count($operators); $i++)
-                                                @isset($data->operators[$i])
                                                   <option value="{{ $operators[$i]->id }}"
-                                                     {{-- @if($data->operators[$i]->id == $operators[$i]->id) selected  @endif --}}
                                                      @php
-                                                         for ($j=0; $j < count($operators); $j++) { 
-                                                             if($data->operators[$i]->id == $operators[$j]->id){
+                                                         for ($j=0; $j < count($data->operators); $j++) { 
+                                                             if($operators[$i]->id == $data->operators[$j]->id){
                                                                  echo 'selected';
                                                              }
                                                          }
                                                      @endphp
                                                 >
                                                      {{ $operators[$i]->name }}</option>
-                                                @else
-                                                <option value="{{ $operators[$i]->id }}" >{{ $operators[$i]->name }}</option>
-                                                @endisset()
                                               @endfor
                                             </select>
                                         </div>

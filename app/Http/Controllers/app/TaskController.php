@@ -115,7 +115,7 @@ class TaskController extends Controller
       $data = Task::find($id);
       $data->delete();
       return redirect()->route('admin.task.index')->with([
-        'flashDelete' => $data->title . ' task has been removed succesfully'
+        'flashDanger' => $data->title . ' task has been removed succesfully'
       ]);
 
     }
