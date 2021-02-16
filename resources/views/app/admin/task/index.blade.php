@@ -1,7 +1,7 @@
 
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'List View')
+@section('title', 'Tasks List')
 
 @section('vendor-style')
         {{-- vendor files --}}
