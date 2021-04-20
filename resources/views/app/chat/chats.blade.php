@@ -1,11 +1,12 @@
 @foreach ($chats as $chat)
   
     {{-- Me --}}
-    <div class="chat {{ ($chat->from === Auth::id() ? '' : 'chat-left' ) }} ">
+    <div class="chat {{ ($chat->from === Auth::id() ? 'chat-right' : 'chat-left' ) }} ">
         <div class="chat-avatar">
             <a class="avatar m-0" data-toggle="tooltip" href="#" data-placement="{{ ($chat->from === Auth::id() ? 'left' : 'right' ) }}" title=""
                 data-original-title="">
-                <img src="{{ ($chat->from === Auth::id() ?  Gravatar::src(Auth::user()->email) : Gravatar::src($to->email) ) }}" alt="avatar" height="40" width="40" />
+                <img src="" class="chatbox-avatar" alt="avatar" height="40" width="40" />
+                {{-- {{ ($chat->from === Auth::id() ?  Gravatar::src(Auth::user()->email) : Gravatar::src($to->email) ) }} --}}
             </a>
         </div>
         <div class="chat-body">

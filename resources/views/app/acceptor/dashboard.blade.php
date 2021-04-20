@@ -16,7 +16,7 @@
   @endsection
 
   @section('content')
-   Acceptor
+   Acceptor | Analytics will be added later
   @endsection
 
 @section('vendor-script')

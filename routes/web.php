@@ -42,12 +42,16 @@ Route::group([
   Route::get('timeline-by-worksheet', 'WorksheetController@timeline_by_worksheet');
   Route::get('timeline-by-operator', 'WorksheetController@timeline_by_operator');
 
-  //Chat
+  // Chat
   Route::resource('chat', 'ChatController');
   Route::get('chat_status/{id}', 'ChatController@chat_status');
-  
-  // task routes
+
+  // Task
   Route::resource('task', 'TaskController');
+
+  // Timeline
+  Route::get('timeline', 'TimelineController@index');
+  Route::post('timeline', 'TimelineController@update')->name('update');
 });
 
 //Acceptor

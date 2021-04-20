@@ -5,6 +5,8 @@ namespace App\Http\Controllers\app;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Customer;
 use App\JobTimer;
+use App\LateBar;
+use App\Timeline;
 use App\User;
 use App\Worksheet;
 use App\WorksheetCustomer;
@@ -33,8 +35,6 @@ class WorksheetController extends Controller
             'worksheets' => Worksheet::with(['spare_parts', 'jobs'])->orderBy('id','DESC')->get(),
             'user' => User::all()     
         ]);
-        
-        
         
     }
 
@@ -101,6 +101,8 @@ class WorksheetController extends Controller
      */
     public function create()
     {
+        
+
         // return WorksheetObject::with('operators')->get();
         return view('app.admin.worksheets.add')->with([
             'jobs' => WorksheetObject::with('operators')->get(),
@@ -117,6 +119,9 @@ class WorksheetController extends Controller
      */
     public function store(Request $request)
     {
+        // Global Variable
+        $SEC_PX = 1.43020833;
+
         $data = $request->except('_token');
         
         # data variabls defined
@@ -129,17 +134,17 @@ class WorksheetController extends Controller
         $existing_objects = $data['existing_job']; //array
         $customer = $data['customer'];
         $meta = $data['meta'];
-        
-              dd($data);
+
+
 
         #### 0: Creating Customer Account
-        if (User::where('email', $customer['cell_phone'])->exists()) {
-            $user = User::where('email', $customer['cell_phone'])->first();
+        if (User::where('email', $customer['phone'])->exists()) {
+            $user = User::where('email', $customer['phone'])->first();
         }else{
             $user = new User();
             $user->title = 'Customer';
             $user->name = $customer['full_name'];
-            $user->email = $customer['cell_phone'];
+            $user->email = $customer['phone'];
             $user->password = bcrypt($vehicle['license_plate']);
             $user->role = 4;
             $user->save();
@@ -148,7 +153,7 @@ class WorksheetController extends Controller
         #### 1: Worksheet data
         $worksheet = New Worksheet();
         $worksheet->user_id = Auth::user()->id;
-        $worksheet->customer_accepted = 0;
+        $worksheet->customer_accepted = 1;
         $worksheet->work_started = $meta['work_started'];
         $worksheet->days_required = $meta['days_required'];
         $worksheet->voucher_type = $meta['voucher_radio'];
@@ -239,6 +244,64 @@ class WorksheetController extends Controller
             $save_image->image = $images[$i];
             $save_image->save();
         }
+
+        ### 9: Timeline
+        // Work start time variables
+        $datetime_local = $meta['work_started'];
+        // Time
+        $time = substr($datetime_local, -5);
+        $hr = explode(':', $time)[0];
+        $min = explode(':', $datetime_local)[1];
+        // Date
+        $date_str = substr($datetime_local, 0, 10);
+        $year = explode('-', $date_str)[0];
+        $month = explode('-', $date_str)[1];
+        $date = explode('-', $date_str)[2];
+
+        ## 9.1: Insert into late bar
+        $same = array();
+        $sum = array();
+        for($i=0; $i < count($existing_objects); $i++){
+
+            if(in_array($existing_objects[$i]['operator'], $same)){
+                for ($j=0; $j < count($sum); $j++) { 
+                    if($sum[$j]['operator'] == $existing_objects[$i]['operator']){
+                        $object2 = WorksheetObject::find($existing_objects[$i]['object']);
+                        $calc2 = ($object2->max_time * 60) * $SEC_PX;
+
+                        $sum[$j]['width'] += $calc2;
+                        break;
+                    }
+                }
+            }else{
+                $object1 = WorksheetObject::find($existing_objects[$i]['object']);
+                $calc1 = ($object1->max_time * 60) * $SEC_PX;
+
+                $sum[$i]['operator'] = $existing_objects[$i]['operator'];
+                $sum[$i]['width'] = $calc1;
+                array_push($same, $existing_objects[$i]['operator']);
+            }
+            
+        }
+        $sum = array_values($sum);  
+        for($i=0; $i < count($sum); $i++){
+            $late_bar = new LateBar();
+            $late_bar->user_id = $sum[$i]['operator'];
+
+            # Calculating Left
+            $late_bar_left = (($hr * 60 * 60) + ($min * 60)) * $SEC_PX;
+            $late_bar->left = $late_bar_left;
+
+            $late_bar->width = $sum[$i]['width'];
+            $late_bar->color = '#343434';
+            $late_bar->text = $vehicle['license_plate'];
+            $late_bar->date = $date;
+            $late_bar->month = $month;
+            $late_bar->year = $year;
+            
+            $late_bar->save();
+        }
+
         
         
         if(str_contains(Route::current()->uri, 'admin/')){

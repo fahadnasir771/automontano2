@@ -23,7 +23,6 @@ class CreateWorksheetCustomersTable extends Migration
             $table->string('fiscal_code')->nullable();
             $table->string('vat_number')->nullable();
             $table->string('phone')->nullable();
-            $table->string('cell_phone');
             $table->string('email')->nullable();
             $table->timestamps();
 

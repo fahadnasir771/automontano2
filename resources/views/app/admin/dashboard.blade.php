@@ -11,7 +11,7 @@
 
   @section('content')
    <section>
-     Admin
+     Admin | Analytics will be added later
    </section>
   @endsection
 

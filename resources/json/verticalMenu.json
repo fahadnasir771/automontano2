@@ -825,14 +825,20 @@
     },
     {
       "url": "/admin/all-timeline",
-      "name": "View All Timeline",
+      "name": "View All Timers",
       "icon": "feather icon-clock"
       
     },
     {
       "url": "/admin/timeline-by-operator",
-      "name": "Operator Timeline",
+      "name": "Operator Timers",
       "icon": "feather icon-crosshair"
+      
+    },
+    {
+      "url": "/admin/timeline",
+      "name": "Timeline",
+      "icon": "feather icon-cpu"
       
     },
     {
@@ -940,13 +946,13 @@
     },
     {
       "url": "/acceptor/all-timeline",
-      "name": "View All Timeline",
+      "name": "View All Timers",
       "icon": "feather icon-clock"
       
     },
     {
       "url": "/acceptor/timeline-by-operator",
-      "name": "Operator Timeline",
+      "name": "Operator Timers",
       "icon": "feather icon-crosshair"
       
     },

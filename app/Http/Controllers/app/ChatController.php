@@ -103,7 +103,7 @@ class ChatController extends Controller
             $query->where('from', $my_id)->where('to', $user_id);
         })->orWhere(function($query) use($user_id, $my_id){
             $query->where('from', $user_id)->where('to', $my_id);
-        })->get();
+        })->orderBy('id', 'ASC')->get();
 
 
         return view('app.chat.chats')->with([
@@ -115,7 +115,9 @@ class ChatController extends Controller
     public function chat_status($user_id)
     {
         $receiver = User::find($user_id);
-        return ['chat_status' => $receiver->login_status];
+        return [
+            'chat_status' => $receiver->login_status
+        ];
     }
 
     /**

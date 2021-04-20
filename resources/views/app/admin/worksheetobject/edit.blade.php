@@ -63,7 +63,7 @@
                                               name="max_time" value="{{ $data->max_time }}" required
                                               data-validation-required-message="This maximun completion time field is required">
                                           <div class="form-control-position" style="top: 20px; right: 20px">
-                                              <b>max.</b>
+                                              <b>min.</b>
                                           </div>
                                       </fieldset>
 

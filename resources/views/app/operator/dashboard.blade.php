@@ -16,7 +16,7 @@
   @endsection
 
   @section('content')
-   Operator
+   Operator | Analytics will be added later
   @endsection
 
 @section('vendor-script')

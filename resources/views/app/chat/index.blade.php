@@ -23,7 +23,7 @@
                 <div class="position-relative d-inline-flex">
                     <div class="avatar">
                         {{-- {{ asset('images/portrait/small/avatar-s-11.jpg') }} --}}
-                        <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="user_avatar" height="40" width="40">
+                        <img src="{{ Gravatar::src(Auth::user()->email) }}" id="auth-avatar" alt="user_avatar" height="40" width="40">
                         <span class="avatar-status-online"></span>
                     </div>
                     <div class="bullet-success bullet-sm position-absolute"></div>
@@ -160,7 +160,6 @@
 
       // Pusher chat post
       channel.bind('chat', function(data) {
-        alert();
         if(my_id == data.from){ //user who sends hte message
           $('#' + data.to).click();
         }else if(my_id == data.to){ //user who receives the message
@@ -226,6 +225,9 @@
             $('#chats').html(data);
             $(".user-chats").animate({ scrollTop: $(".user-chats > .chats").height() }, 300);
 
+            //chatbox avatars
+            $('.chat-right').find('.chatbox-avatar').attr('src', $('#auth-avatar').attr('src'));
+            $('.chat-left').find('.chatbox-avatar').attr('src', $('#profile-image').attr('src'))
           }
         });
         

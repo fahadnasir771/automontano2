@@ -162,6 +162,7 @@
 			}
 
 		}else{
+			echo '<p style="color: red">Per la fase di test, avviare i lavori in sequenza, prima il lavoro e poi il successivo</p>';
 			$operator_jobs = false;
 			for ($i=0; $i < count($ws->jobs); $i++) { 
 				if($ws->jobs[$i]->operator_id == Auth::user()->id){
@@ -211,8 +212,20 @@
 		@endphp
 		{{-- jobs --}}
 		<div class="col-lg-3 col-md-12">
-			
 			<div class="card" style="position: relative">
+
+				<div class="dropdown chart-dropdown">
+					<button class="btn btn-sm border-0 px-50 float-right" style="top: 4px; font-size: 20px; position: absolute; right: 0;z-index:1" type="button" id="dropdownItem1"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="feather icon-more-vertical"></i>
+					</button>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem1">
+						<a class="dropdown-item dev" href="#">Spare Part</a>
+						<a class="dropdown-item dev" href="#">Pause Work</a>
+						<a class="dropdown-item dev" href="#">Stop Work</a>
+					</div>
+			</div>
+
 				<div class="card-header pb-0" style="padding-top: 30px" >
 					<h4 style="position: absolute;left:50%;transform: translateX(-50%);width : 100%; text-align: center">{{ $job->object->title }}</h4>
 				</div>
@@ -371,6 +384,7 @@
 					'min_at': MIN_TIME 
 				},
 				success: function(data) {
+					console.log(data);
 					toastr.success('','Best of Luck');
 					
 				}
@@ -407,6 +421,7 @@
 				},
 				success: function(data) {
 					toastr.success('','Your work is submitted');
+					window.location.reload(false); 
 				}
 			});
 

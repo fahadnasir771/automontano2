@@ -64,7 +64,7 @@
             <p>A handle snaps to a clicked location. A smooth transition is used. This option is <code>default</code>.
             </p>
             <div class="form-group">
-              <div id="tap" class="my-1"></div>
+              <div id="tap" class="my-1" style="height: 30px"><div style="position: absolute">hello</div></div>
             </div>
 
             <h4 class="mt-2">Drag</h4>

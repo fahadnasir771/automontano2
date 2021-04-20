@@ -43,4 +43,16 @@ class User extends Authenticatable
         return $this->belongsToMany(WorksheetObject::class);
     }
 
+    public function late_bars(){
+        return $this->hasMany(LateBar::class);
+    }
+
+    public function main_bars(){
+        return $this->hasMany(MainBar::class);
+    }
+
+    public function secondary_bars(){
+        return $this->hasMany(SecondaryBar::class);
+    }
+    
 }
