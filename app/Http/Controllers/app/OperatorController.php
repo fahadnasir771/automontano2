@@ -205,33 +205,33 @@ class OperatorController extends Controller
 
 
             
-            $timer_data = JobTimer::where('html_id', $request->html_id)->first();
-            $job_data = WorksheetJob::find($timer_data->worksheet_job_id);
-            $worksheet_data = Worksheet::find($job_data->worksheet_id);
+            // $timer_data = JobTimer::where('html_id', $request->html_id)->first();
+            // $job_data = WorksheetJob::find($timer_data->worksheet_job_id);
+            // $worksheet_data = Worksheet::find($job_data->worksheet_id);
 
-            $startDate = time();
-            $expiry = date('Y-m-d H:i:s', strtotime('+' . $worksheet_data->days_required . ' day', $startDate)); // to calculate dluvery date
+            // $startDate = time();
+            // $expiry = date('Y-m-d H:i:s', strtotime('+' . $worksheet_data->days_required . ' day', $startDate)); // to calculate dluvery date
             
-            Worksheet::where('id', $worksheet_data->id)->update([
-                //worksheet 
-                'work_started' => Carbon::now(),
-                'work_actually_started' => 1,
-                'delivery_date' => $expiry
-            ]);
+            // Worksheet::where('id', $worksheet_data->id)->update([
+            //     //worksheet 
+            //     'work_started' => Carbon::now(),
+            //     'work_actually_started' => 1,
+            //     'delivery_date' => $expiry
+            // ]);
 
-            WorksheetJob::where('id', $job_data->id)->update([
-                //job
-                'started' => 1
-            ]);
+            // WorksheetJob::where('id', $job_data->id)->update([
+            //     //job
+            //     'started' => 1
+            // ]);
 
-            JobTimer::where('html_id', $request->html_id)->update([
-                //Job Timer
-                'started' => 1,
-                'in_progress' => 1,
-                'min_at' => time() + $request->min_at,
-                'max_at' => time() + $request->max_at,
-                'started_at' => time()
-            ]);
+            // JobTimer::where('html_id', $request->html_id)->update([
+            //     //Job Timer
+            //     'started' => 1,
+            //     'in_progress' => 1,
+            //     'min_at' => time() + $request->min_at,
+            //     'max_at' => time() + $request->max_at,
+            //     'started_at' => time()
+            // ]);
 
         }
 
@@ -243,20 +243,20 @@ class OperatorController extends Controller
             ];
             $pusher->trigger('my-channel', 'worksheetJob', $data);
 
-            $timer_data = JobTimer::where('html_id', $request->html_id)->first();
-            $job_data = WorksheetJob::find($timer_data->worksheet_job_id);
+            // $timer_data = JobTimer::where('html_id', $request->html_id)->first();
+            // $job_data = WorksheetJob::find($timer_data->worksheet_job_id);
 
-            WorksheetJob::where('id', $job_data->id)->update([
-                //job
-                'completed' => 1,
-            ]);
+            // WorksheetJob::where('id', $job_data->id)->update([
+            //     //job
+            //     'completed' => 1,
+            // ]);
 
-            JobTimer::where('html_id', $request->html_id)->update([
-                //timer
-                'in_progress' => 0,
-                'finished' => 1,
-                'finished_at' => time()
-            ]);
+            // JobTimer::where('html_id', $request->html_id)->update([
+            //     //timer
+            //     'in_progress' => 0,
+            //     'finished' => 1,
+            //     'finished_at' => time()
+            // ]);
 
         }
     }

@@ -6,21 +6,6 @@ var pusher = new Pusher('3a5e5ed0226f48310b94', {
 });
 var channel = pusher.subscribe('my-channel');
 
-// AJAX Functions
-// function ajax(obj){
-//   $.ajax({
-//     url: AJAX_URL,
-//     type: 'POST',
-//     data: obj,
-//     success: function(data) {
-//       console.log(data);
-//     },
-//     fail: function(jqXHR, textStatus, errorThrown){
-//       console.log(errorThrown); 
-//     }
-//   })
-// }
-
 // GLOBAL
 // -------------- PRoGRESS --------------
 const GREEN = '#238f23';
@@ -179,18 +164,6 @@ function progress(time) {
       $el_job_finished_main.attr('data-mode', 'work-in-progress');
       $el_job_finished.attr('data-status', 3);
       parseInt($el_job_finished_main.attr('data-jobs-done', parseInt($el_job_finished_main.attr('data-jobs-done')) + 1));
-
-      // ajax({
-      //   'left': '',
-      //   'width': '',
-      //   'color': '',
-      //   'mode': '',
-      //   'mode2': '',
-      //   'status': 3,
-      //   'id': $el_job_finished.attr('data-id'),
-      //   'type': 'sec',
-      //   '_token': $("input[name='_token']").val()
-      // });
 
       // if the finishing job has icreasing width attribute
       if(
@@ -628,9 +601,7 @@ function progress(time) {
           
         }
       }
-      
-      
-      
+
     }
   }
 
@@ -651,6 +622,7 @@ channel.bind('worksheetJob', function(data) {
   }
 });
 var TIME;
+
 function bootstrap(id, main, sec, html_on){
 
   if(html_on){
@@ -673,20 +645,6 @@ function bootstrap(id, main, sec, html_on){
 
       $el_start.attr('data-mode', 'work-started');
 
-      // $.ajax({
-      //   url: AJAX_URL,
-      //   type: 'POST',
-      //   data: {
-      //     'mode': 'work-started',
-      //     'id': $el_start.attr('data-id'),
-      //     'type': 'main',
-      //     '_token': $("input[name='_token']").val()
-      //   },
-      //   success: function(data) {
-      //     console.log(data);
-      //   }
-      // })
-
       let main_bar_objects_id = parseInt($el_start.attr('data-objects-id'));
       
       for(let j=0; j < $el_start.parents('.progressbar2').siblings('.progressbar3').find('.secondary-bar').length; j++){
@@ -694,33 +652,10 @@ function bootstrap(id, main, sec, html_on){
         if($sec_el_id.attr('data-mode') == 'delay1'){
           $sec_el_id.attr('data-mode', 'normal-delay1');
 
-          // ajax({
-          //   'left': '',
-          //   'width': '',
-          //   'color': '',
-          //   'mode': 'normal-delay1',
-          //   'mode2': '',
-          //   'status': '',
-          //   'id': $sec_el_id.attr('data-id'),
-          //   'type': 'sec',
-          //   '_token': $("input[name='_token']").val()
-          // });
         }
         if($sec_el_id.attr('data-mode2') == 'increase-left' || $sec_el_id.attr('data-mode2') == 'increase-width'){
           $sec_el_id.attr('data-mode2', 'normal');
           $sec_el_id.attr('data-mode', 'pre-object2');
-
-          // ajax({
-          //   'left': '',
-          //   'width': '',
-          //   'color': '',
-          //   'mode': 'pre-object',
-          //   'mode2': 'normal',
-          //   'status': '',
-          //   'id': $sec_el_id.attr('data-id'),
-          //   'type': 'sec',
-          //   '_token': $("input[name='_token']").val()
-          // });
 
         }
       }
@@ -733,20 +668,6 @@ function bootstrap(id, main, sec, html_on){
         ){
           $sec_el_id.attr('data-status', 1);
           $sec_el_id.attr('data-color', PURPLE);
-
-          // ajax({
-          //   'left': '',
-          //   'width': '',
-          //   'color': PURPLE,
-          //   'mode': '',
-          //   'mode2': '',
-          //   'status': 1,
-          //   'id': $sec_el_id.attr('data-id'),
-          //   'type': 'sec',
-          //   '_token': $("input[name='_token']").val()
-          // });
-
-
           break;
         }
       }
@@ -786,18 +707,6 @@ function bootstrap(id, main, sec, html_on){
                 let hehe90 = (parseFloat($el34970.attr('data-left'))) - remained;
                 $el34970.attr('data-left', hehe90);
 
-                // ajax({
-                //   'left': hehe90,
-                //   'width': '',
-                //   'color': '',
-                //   'mode': '',
-                //   'mode2': '',
-                //   'status': '',
-                //   'id': $el34970.attr('data-id'),
-                //   'type': 'sec',
-                //   '_token': $("input[name='_token']").val()
-                // });
-
               }
               
             }
@@ -816,18 +725,6 @@ function bootstrap(id, main, sec, html_on){
                 }else{
                   let hehe94893 = parseFloat($el34970.attr('data-width')) - remained;
                   $el34970.attr('data-width', hehe94893);
-
-                  // ajax({
-                  //   'left': '',
-                  //   'width': hehe94893,
-                  //   'color': '',
-                  //   'mode': '',
-                  //   'mode2': '',
-                  //   'status': '',
-                  //   'id': $el34970.attr('data-id'),
-                  //   'type': 'sec',
-                  //   '_token': $("input[name='_token']").val()
-                  // });
 
                 }
               }
@@ -862,17 +759,6 @@ function bootstrap(id, main, sec, html_on){
                     $el3872_bonus.attr('data-width', parseFloat($el3872_bonus.attr('data-width')) + remained);
                     $el3872_bonus.attr('data-left', parseFloat($el3872_bonus.attr('data-left')) - remained);
 
-                    // ajax({
-                    //   'left': parseFloat($el3872_bonus.attr('data-left')) - remained,
-                    //   'width': parseFloat($el3872_bonus.attr('data-width')) + remained,
-                    //   'color': '',
-                    //   'mode': '',
-                    //   'mode2': '',
-                    //   'status': '',
-                    //   'id': $el3872_bonus.attr('data-id'),
-                    //   'type': 'sec',
-                    //   '_token': $("input[name='_token']").val()
-                    // });
 
                   }else{
                     $elr8738.parents('.progressbar2').append(
@@ -880,14 +766,7 @@ function bootstrap(id, main, sec, html_on){
                         <div class="bar main-bar" data-left="` + hehe349 + `" data-color="` + SKY + `"  data-width="` + remained + `" data-mode="pre-object-early-2" data-objects-id="-1"></div>
                       `
                     );
-                    // ajax({
-                    //   'left': hehe349,
-                    //   'width': remained,
-                    //   'color': SKY,
-                    //   'mode': 'pre-object-early-2',
-                    //   'type': 'insert-main',
-                    //   '_token': $("input[name='_token']").val()
-                    // });
+
                   }
                   
 
@@ -904,17 +783,6 @@ function bootstrap(id, main, sec, html_on){
           $el_early_pre_object_bonus.attr('data-width', hehe);
           $el_early_pre_object_bonus.attr('data-mode', 'move-early-pre-object-bonus');
 
-          // ajax({
-          //   'left': '',
-          //   'width': hehe,
-          //   'color': '',
-          //   'mode': 'move-early-pre-object-bonus',
-          //   'mode2': '',
-          //   'status': '',
-          //   'id': $el_early_pre_object_bonus.attr('data-id'),
-          //   'type': 'sec',
-          //   '_token': $("input[name='_token']").val()
-          // });
         }
       }
       break;
@@ -938,17 +806,6 @@ function halt(id){
     if(parseInt($el_finish.attr('data-status')) == 1){
       $el_finish.attr('data-status', 2);
 
-      // ajax({
-      //   'left': '',
-      //   'width': '',
-      //   'color': '',
-      //   'mode': '',
-      //   'mode2': '',
-      //   'status': 2,
-      //   'id': $el_finish.attr('data-id'),
-      //   'type': 'sec',
-      //   '_token': $("input[name='_token']").val()
-      // });
     }
   }
 };
@@ -1053,35 +910,10 @@ function render_secondary_bar(){
         }
 
         $el_all_sec.eq(j).attr('data-mode', 'normal');
-
-        // ajax({
-        //   'left': '',
-        //   'width': '',
-        //   'color': '',
-        //   'mode': 'normal',
-        //   'mode2': '',
-        //   'status': '',
-        //   'id': $el_all_sec.eq(j).attr('data-id'),
-        //   'type': 'sec',
-        //   '_token': $("input[name='_token']").val()
-        // });
         
         let $el_sec = $el_all_sec.eq(j);
         let hehe = parseFloat(laststatus3.attr('data-left')) + parseFloat(laststatus3.attr('data-width'))
         $el_all_sec.eq(j).attr('data-left', hehe);
-
-        // ajax({
-        //   'left': hehe,
-        //   'width': '',
-        //   'color': '',
-        //   'mode': '',
-        //   'mode2': '',
-        //   'status': '',
-        //   'id': $el_all_sec.eq(j).attr('data-id'),
-        //   'type': 'sec',
-        //   '_token': $("input[name='_token']").val()
-        // });
-        
        
       }
 

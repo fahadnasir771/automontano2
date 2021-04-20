@@ -303,7 +303,6 @@ class WorksheetController extends Controller
         }
 
         
-        
         if(str_contains(Route::current()->uri, 'admin/')){
             return redirect()->route('admin.worksheets.index')->with([
                 'flashSuccess' => 'Worksheet#' . $worksheet->id . ' has been created successfully'

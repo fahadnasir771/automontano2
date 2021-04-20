@@ -83,7 +83,7 @@
 
               {{-- Timeline operator row --}}
               @php
-                $i=0
+                $o=1
               @endphp
               @foreach ($operators as $operator)
                 {{-- @php
@@ -116,14 +116,10 @@
                         @endphp
                         
                       @endif
-
-                      {{-- @if ($i==1)
-                        <div class="bar main-bar" data-left="28.6041666"  data-color="royalblue" data-width="257.4374994" data-mode="work-not-started"  data-jobs="4" data-jobs-done="0" data-objects-id="0">LED2465</div>
-                      @endif --}}
                       
                     </li>
 
-                    <li class="list-group-item progressbar3 progressbar {{ ($i==1) ? 'simplace' : '' }} " id="{{ $operator->id }}">
+                    <li class="list-group-item progressbar3 progressbar {{ ($o==1) ? 'simplace' : '' }} " id="{{ $operator->id }}">
 
                       @if (isset($operator->secondary_bars))
                         @php
@@ -135,15 +131,7 @@
                         
                       @endif
 
-                      {{-- @if ($i==1)
-                      <div class="bar secondary-bar" data-left="0" data-color="#434343" data-width="100.1145830999" data-mode="pre-object" data-worksheet-id="0" data-object-index="1" data-status="0" data-position="first" data-mode2="" style="display: none">Engine</div>
-
-                      <div class="bar secondary-bar" data-left="0" data-color="#434343" data-width="42.9062499" data-mode="pre-object" data-worksheet-id="0" data-object-index="2" data-status="0" data-position="middle" data-mode2="" style="display: none">Oil</div>
-
-                      <div class="bar secondary-bar" data-left="0" data-color="#434343" data-width="71.51041649999" data-mode="pre-object" data-worksheet-id="0" data-object-index="3" data-status="0" data-position="middle" data-mode2="" style="display: none">Align</div>
-
-                      <div class="bar secondary-bar" data-left="0" data-color="#434343" data-width="42.9062499" data-mode="pre-object" data-worksheet-id="0" data-object-index="4" data-status="0" data-position="last" data-mode2="" style="display: none">Tyre</div>
-                      @endif --}}
+                    
                       
 
                     </li>
