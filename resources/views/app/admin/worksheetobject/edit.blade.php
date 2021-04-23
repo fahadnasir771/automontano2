@@ -59,7 +59,7 @@
 
                                         <fieldset class="controls form-group col-6  position-relative">
                                           <label>Max. Completion Time</label>
-                                          <input type="number" class="form-control"  placeholder="Max. Completion Time"
+                                          <input type="text" class="form-control"  placeholder="Max. Completion Time"
                                               name="max_time" value="{{ $data->max_time }}" required
                                               data-validation-required-message="This maximun completion time field is required">
                                           <div class="form-control-position" style="top: 20px; right: 20px">

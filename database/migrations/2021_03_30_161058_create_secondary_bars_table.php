@@ -21,7 +21,7 @@ class CreateSecondaryBarsTable extends Migration
             $table->text('color');
             $table->text('mode');
             $table->text('mode2');
-            $table->text('worksheet_id');
+            $table->text('main_bar_id');
             $table->text('objects_index');
             $table->text('status');
             $table->text('position');
@@ -29,7 +29,7 @@ class CreateSecondaryBarsTable extends Migration
             $table->text('date');
             $table->text('month');
             $table->text('year');
-
+            $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

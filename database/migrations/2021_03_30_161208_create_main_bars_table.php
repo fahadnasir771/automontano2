@@ -27,7 +27,7 @@ class CreateMainBarsTable extends Migration
             $table->text('date');
             $table->text('month');
             $table->text('year');
-
+            $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

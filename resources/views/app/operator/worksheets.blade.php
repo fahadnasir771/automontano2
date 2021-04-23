@@ -420,8 +420,9 @@
 					
 				},
 				success: function(data) {
+					console.log(data);
 					toastr.success('','Your work is submitted');
-					window.location.reload(false); 
+					// window.location.reload(false); 
 				}
 			});
 

@@ -125,7 +125,7 @@
                         @php
 
                           for($i=0; $i < count($operator->secondary_bars); $i++){
-                            echo '<div class="bar secondary-bar" data-left="' . $operator->secondary_bars[$i]->left . '" data-color="' . $operator->secondary_bars[$i]->color . '" data-width="' . $operator->secondary_bars[$i]->width . '" data-mode="' . $operator->secondary_bars[$i]->mode . '" data-worksheet-id="' . $operator->secondary_bars[$i]->worksheet_id . '" data-object-index="' . $operator->secondary_bars[$i]->objects_index . '" data-status="' . $operator->secondary_bars[$i]->status . '" data-position="' . $operator->secondary_bars[$i]->position . '" data-mode2="' . $operator->secondary_bars[$i]->mode2 . '" style="display: none" data-id="' . $operator->secondary_bars[$i]->id . '">' . $operator->secondary_bars[$i]->text . '</div>';
+                            echo '<div class="bar secondary-bar" data-left="' . $operator->secondary_bars[$i]->left . '" data-color="' . $operator->secondary_bars[$i]->color . '" data-width="' . $operator->secondary_bars[$i]->width . '" data-mode="' . $operator->secondary_bars[$i]->mode . '" data-worksheet-id="' . $operator->secondary_bars[$i]->main_bar_id . '" data-object-index="' . $operator->secondary_bars[$i]->objects_index . '" data-status="' . $operator->secondary_bars[$i]->status . '" data-position="' . $operator->secondary_bars[$i]->position . '" data-mode2="' . $operator->secondary_bars[$i]->mode2 . '" style="display: none" data-id="' . $operator->secondary_bars[$i]->id . '">' . $operator->secondary_bars[$i]->text . '</div>';
                           }
                         @endphp
                         

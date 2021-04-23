@@ -47,6 +47,7 @@ class OperatorController extends Controller
 
         // Global Variable
         $SEC_PX = 1.43020833;
+        $TIME = (time() - strtotime("today"));
         
         // Pusher to start work
         $options = [
@@ -62,7 +63,7 @@ class OperatorController extends Controller
 
         //timer start function
         if($request->started == 1){
-
+            // die();
             // Checking if main bar already exists
             $check_if_exists = MainBar::where('html_id_verify', explode('-', $request->html_id)[0])
                                 ->where('user_id', Auth::id())
@@ -125,7 +126,7 @@ class OperatorController extends Controller
                 }
 
                 $main_bar->color = 'royalblue';
-                $main_bar->mode = 'work-not-started';
+                $main_bar->mode = 'work-started';
                 
                 $main_bar->jobs_done = 0;
                 // The objects id will be the auto incerement id
@@ -161,14 +162,17 @@ class OperatorController extends Controller
                     $secondary_bar->color = '#434343';
                     $secondary_bar->mode = 'pre-object';
                     $secondary_bar->mode2 = '';
-                    $secondary_bar->worksheet_id = $main_bar->id;
+                    $secondary_bar->main_bar_id = $main_bar->id;
                     $secondary_bar->objects_index = $i+1;
                     $secondary_bar->status = 0;
                     if(count($secondary_bar_objects) == 1){
                         $secondary_bar->position = 'last';
+                        $secondary_bar->status = 1;
                     }else{
                         if($i == 0 ){
                             $secondary_bar->position = 'first';
+                            $secondary_bar->status = 1;
+                            $secondary_bar->color = 'purple';
                         }elseif($i == (count($secondary_bar_objects) - 1)){
                             $secondary_bar->position = 'last';
                         }else{
@@ -182,7 +186,7 @@ class OperatorController extends Controller
                     $secondary_bar->year = date('Y');
                     $secondary_bar->save();
 
-                    array_push($secondary_bar_html, '<div class="bar secondary-bar" data-left="' . $secondary_bar->left . '" data-color="#434343" data-width="' . $secondary_bar->width . '" data-mode="pre-object" data-worksheet-id="' . $secondary_bar->worksheet_id . '" data-object-index="' . $secondary_bar->objects_index . '" data-status="0" data-position="' . $secondary_bar->position . '" data-mode2="" data-id="' . $secondary_bar->id . '" style="display: none">' . $secondary_bar->text . '</div>');
+                    array_push($secondary_bar_html, '<div class="bar secondary-bar" data-left="' . $secondary_bar->left . '" data-color="#434343" data-width="' . $secondary_bar->width . '" data-mode="pre-object" data-worksheet-id="' . $secondary_bar->main_bar_id . '" data-object-index="' . $secondary_bar->objects_index . '" data-status="0" data-position="' . $secondary_bar->position . '" data-mode2="" data-id="' . $secondary_bar->id . '" style="display: none">' . $secondary_bar->text . '</div>');
                 }
                 $data = [
                     'started' => 1,
@@ -192,6 +196,77 @@ class OperatorController extends Controller
                     'append_html' => $append_html
                 ];
             }else{
+
+                // Start next jobs after 1 and if the job-late bar is present
+                if(MainBar::where('user_id', Auth::id())->where('mode', 'job-late')->exists()){
+
+                    // Updating dealy1 seconndary bar
+                    $update_sec_bar_2 = SecondaryBar::where('user_id', Auth::id())
+                                ->where('mode', 'delay1')
+                                ->first();
+                    $update_sec_bar_2->mode = 'normal';
+                    $delay1_instances_time = $TIME - ($update_sec_bar_2->left / $SEC_PX);
+                    $update_sec_bar_2->width = $delay1_instances_time * $SEC_PX;
+                    $update_sec_bar_2->save();
+
+                    // Updating job-late main bar
+                    $update_main_bar_4 = MainBar::where('user_id', Auth::id())
+                                ->where('mode', 'job-late')
+                                ->first();
+                    $update_main_bar_4->width = $update_main_bar_4->width + ((time() - strtotime($update_main_bar_4->updated_at)) * $SEC_PX);
+                    $update_main_bar_4->save();
+
+                    // Updating work under progress main bar
+                    $update_main_bar_2 = MainBar::where('user_id', Auth::id())->where('mode', 'work-in-progress')->first();
+                    $update_main_bar_2->mode = 'work-started';
+                    $update_main_bar_2->save();
+
+                    // Update job-late main bar
+                    $update_main_bar_3 = MainBar::where('user_id', Auth::id())->where('mode', 'job-late')->first();
+                    $update_main_bar_3->mode = 'normal-job-late';
+                    $update_main_bar_3->save();
+
+                    // Updating all next Secondary bars
+                    $update_sec_bar_3 = SecondaryBar::where('user_id', Auth::id())
+                                ->where('main_bar_id', $update_main_bar_2->id)
+                                ->where('mode', 'pre-object')
+                                ->where('status', 0)
+                                ->get();
+                    for ($i = 0; $i < count($update_sec_bar_3); $i++) {
+                        $update_sec_bar_3[$i]->mode = 'pre-object2';
+                        $update_sec_bar_3[$i]->mode2 = 'normal';
+                        $update_sec_bar_3[$i]->left = $update_sec_bar_3[$i]->left + ((time() - strtotime($update_sec_bar_3[$i]->updated_at)) * $SEC_PX);
+                        $update_sec_bar_3[$i]->save();
+                    }
+                    $update_sec_bar_4 = SecondaryBar::where('user_id', Auth::id())
+                                ->where('main_bar_id', $update_main_bar_2->id)
+                                ->where('mode', 'pre-object2')
+                                ->where('status', 0)
+                                ->get();
+                    for ($i = 0; $i < count($update_sec_bar_4); $i++) {
+                        $update_sec_bar_4[$i]->mode2 = 'normal';
+                        $update_sec_bar_4[$i]->left = $update_sec_bar_4[$i]->left + ((time() - strtotime($update_sec_bar_4[$i]->updated_at)) * $SEC_PX);
+                        $update_sec_bar_4[$i]->save();
+                    }
+
+                    // Making status 1 for next scheduled work
+                    $update_sec_bar_1 = SecondaryBar::where('user_id', Auth::id())
+                                ->where('main_bar_id', $update_main_bar_2->id)
+                                ->where('status', 3)
+                                ->latest('updated_at')
+                                ->first();
+                    SecondaryBar::where('user_id', Auth::id())
+                                ->where('main_bar_id', $update_main_bar_2->id)
+                                ->where('objects_index', ($update_sec_bar_1->objects_index + 1))
+                                ->update(
+                                    [
+                                        'status' => 1,
+                                        'color' => 'purple'
+                                    ]
+                                );
+
+                }
+
                 // return ['dont'];
                 $data = [
                     'started' => 1,
@@ -242,6 +317,63 @@ class OperatorController extends Controller
                 'operator' => Auth::id()
             ];
             $pusher->trigger('my-channel', 'worksheetJob', $data);
+
+            // When he stop his work
+            $update_sec_1 = SecondaryBar::where('user_id', Auth::id())->where('status', '1')->first();
+            $update_sec_1->status = 3;
+            $update_sec_1->width = $update_sec_1->width + ((time() - strtotime($update_sec_1->updated_at)) * $SEC_PX);
+            $update_sec_1->mode2 = 'normal';
+            $update_sec_1->save();
+            
+            // When he stop his late work
+            if(
+                MainBar::where('user_id', Auth::id())->where('mode', 'job-late')->exists() ||
+                MainBar::where('user_id', Auth::id())->where('mode', 'normal-job-late')->exists() 
+            ){
+                // return ['here'];
+                // exit();
+                $update_main_bar = MainBar::where('user_id', Auth::id())->where('mode', 'work-started')->first();
+                $update_main_bar->mode = 'work-in-progress';
+                $update_main_bar->jobs_done = $update_main_bar->jobs_done + 1;
+                $update_main_bar->save();
+
+                // If all the work is complete
+                $update_main_bar_5 = MainBar::where('user_id', Auth::id())->where('mode', 'work-in-progress')->first();
+                if($update_main_bar_5->jobs == $update_main_bar_5->jobs_done){
+
+                    $update_main_bar_4 = MainBar::where('user_id', Auth::id())
+                    ->where('mode', 'job-late')
+                    ->first();
+                    $update_main_bar_4->width = $update_main_bar_4->width + ((time() - strtotime($update_main_bar_4->updated_at)) * $SEC_PX);
+                    $update_main_bar_4->save();
+
+                    MainBar::where('user_id', Auth::id())->update(['mode' => 'normal']);
+                    SecondaryBar::where('user_id', Auth::id())->update(['mode' => 'normal', 'mode2' => 'normal']);
+                }else{
+
+                     // adding gray bar until next job he starts
+                    $add_grey_bar = new SecondaryBar(); 
+                    $add_grey_bar->user_id = Auth::id();
+                    $add_grey_bar->left = $update_sec_1->left + $update_sec_1->width;
+                    $add_grey_bar->width = 0;
+                    $add_grey_bar->color = 'gray';
+                    $add_grey_bar->mode = 'delay1';
+                    $add_grey_bar->mode2 = '';
+                    $add_grey_bar->main_bar_id = $update_sec_1->main_bar_id;
+                    $add_grey_bar->objects_index = -1;
+                    $add_grey_bar->status = '';
+                    $add_grey_bar->position = '';
+                    $add_grey_bar->text = '';
+                    $add_grey_bar->position = '';
+                    $add_grey_bar->date = date('d');
+                    $add_grey_bar->month = date('m');
+                    $add_grey_bar->year = date('Y');
+                    $add_grey_bar->save();
+
+                }
+
+            }
+
 
             // $timer_data = JobTimer::where('html_id', $request->html_id)->first();
             // $job_data = WorksheetJob::find($timer_data->worksheet_job_id);

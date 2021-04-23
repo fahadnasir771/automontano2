@@ -192,6 +192,11 @@ function progress(time) {
           `
           );
 
+          $.ajax({
+            'url': '/admin/timeline',
+            'method': 'GET'
+          })
+
         }
         // Finish of the whole worksheet if he is passes the max time of the job
         else if(parseInt($el_job_finished_main.attr('data-jobs-done')) == parseInt($el_job_finished_main.attr('data-jobs'))){
@@ -202,6 +207,7 @@ function progress(time) {
             
             if($el112.attr('data-mode') == 'job-late'){
               $el112.attr('data-mode', 'normal');
+              
             }
           }
 
@@ -350,6 +356,10 @@ function progress(time) {
           <div class="bar secondary-bar" data-left="` + ( parseFloat($el113.attr('data-left')) + parseFloat($el113.attr('data-width')) ) + `" data-color="` + GRAY + `" data-width="0" data-mode="delay1"  data-mode2="" style="display: none"></div>
         `
         );
+        $.ajax({
+          'url': '/admin/timeline',
+          'method': 'GET'
+        })
 
         
         let $el116 = {}; // work in progress
@@ -373,6 +383,10 @@ function progress(time) {
         }
         if($el118_has_job_late){
           $el118.attr('data-mode', 'job-late')
+          $.ajax({
+            'url': '/admin/timeline',
+            'method': 'GET'
+          })
         }else{
           // pre-object-early-2
           let $el645_has_early = false;
@@ -391,6 +405,11 @@ function progress(time) {
                 <div class="bar main-bar" data-left="` + (parseFloat($el116.attr('data-left')) + parseFloat($el116.attr('data-width'))) + `" data-color="#dc3545"  data-width="0" data-mode="job-late"  data-objects-id="-1"></div>
               `
             )
+
+            $.ajax({
+              'url': '/admin/timeline',
+              'method': 'GET'
+            })
           }
           
         }
@@ -445,6 +464,11 @@ function progress(time) {
                       <div class="bar main-bar" data-left="` + exp1 + `" data-color="` + RED + `"  data-width="0" data-mode="job-late" data-objects-id="-1"></div>
                     `
                   )
+
+                  $.ajax({
+                    'url': '/admin/timeline',
+                    'method': 'GET'
+                  })
                 }
               }
             }
@@ -544,6 +568,10 @@ function progress(time) {
 
             if(has_normal_job_late){
               normal_job_late.attr('data-mode', 'job-late');
+              $.ajax({
+                'url': '/admin/timeline',
+                'method': 'GET'
+              })
             }else{
               let $el_last_obj = '';
               for(let k=0; k < $el.parents('.progressbar2').siblings('.progressbar3').find('.secondary-bar').length; k++){
@@ -569,8 +597,16 @@ function progress(time) {
                 
                 if($el_has_bonus){
                   progressbar2.append(pb2_temp(expression1, RED, 0, 'job-late'))
+                  $.ajax({
+                    'url': '/admin/timeline',
+                    'method': 'GET'
+                  })
                 }else{
                   progressbar2.append(pb2_temp((left+width), RED, 0, 'job-late'))
+                  $.ajax({
+                    'url': '/admin/timeline',
+                    'method': 'GET'
+                  })
                 }
                 if($el_has_bonus){
                   $el423_bonus.attr('data-mode', 'normal')
@@ -616,9 +652,11 @@ channel.bind('worksheetJob', function(data) {
     
     bootstrap(data.operator, data.main, data.secondary, data.append_html);
     OPERATOR_ID = data.operator;
+   
   }
   if(data.stopped == 1){
     halt(data.operator);
+   
   }
 });
 var TIME;
@@ -651,7 +689,10 @@ function bootstrap(id, main, sec, html_on){
         let $sec_el_id = $el_start.parents('.progressbar2').siblings('.progressbar3').find('.secondary-bar').eq(j);
         if($sec_el_id.attr('data-mode') == 'delay1'){
           $sec_el_id.attr('data-mode', 'normal-delay1');
-
+          $.ajax({
+            'url': '/admin/timeline',
+            'method': 'GET'
+          })
         }
         if($sec_el_id.attr('data-mode2') == 'increase-left' || $sec_el_id.attr('data-mode2') == 'increase-width'){
           $sec_el_id.attr('data-mode2', 'normal');
@@ -953,7 +994,7 @@ function render_secondary_bar(){
         rendered = true;
       }
 
-      if(!rendered && $el_all_sec.eq(j).attr('data-mode') != 'normal-delay1'){
+      if(!rendered ){ //&& $el_all_sec.eq(j).attr('data-mode') != 'normal-delay1'
         let $el_sec = $el_all_sec.eq(j);
         $el_sec.css({
           'left': parseFloat($el_sec.attr('data-left')),
