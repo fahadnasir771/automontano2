@@ -258,21 +258,21 @@
                                   
                                   <div class="create-job-group" style=" background: rgba(136, 136, 136, 0.1); padding: 40px;">
                                     
-                                    <input type="text" name="create_job[0][object]" class="form-control  create_job_title" readonly placeholder="Job Title">
+                                    <input type="text" name="create_job[0][object]" class="form-control  create_job_title"  placeholder="Job Title">
                                     <br>
-                                    <select name="create_job[0][operator]" class="form-control create_job_operators" id="" readonly>
+                                    <select name="create_job[0][operator]" class="form-control create_job_operators" id="" >
                                       <option value="">Select Operator</option>
                                       @foreach ($operators as $operator)
-                                        {{-- <option value="{{ $operator->id }}">{{ $operator->name }}</option> --}}
+                                        <option value="{{ $operator->id }}">{{ $operator->name }}</option>
                                       @endforeach
                                     </select>
                                     <br>
                                     <div class="row">
                                       <div class="col-6">
-                                        <input type="number" name="create_job[0][min_time]" class="form-control  create_job_min_time" placeholder="Min. Completeion Time" readonly>
+                                        <input type="number" name="create_job[0][min_time]" class="form-control  create_job_min_time" placeholder="Min. Completeion Time" >
                                       </div>
                                       <div class="col-6">
-                                        <input type="number" name="create_job[0][max_time]" class="form-control  create_job_max_time" placeholder="Max. Completeion Time" readonly>
+                                        <input type="number" name="create_job[0][max_time]" class="form-control  create_job_max_time" placeholder="Max. Completeion Time" >
                                       </div>
                                     </div>
                                     
@@ -288,9 +288,6 @@
                                   
                                   </div>
                                 </div>
-
-                                <p style="color: red">Per la fase di test, non è possibile creare un lavoro durante la creazione del foglio di lavoro</p>
-            
                               </div>
                              
                             </div>

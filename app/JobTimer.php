@@ -13,6 +13,11 @@ class JobTimer extends Model
         return $this->belongsTo(WorksheetJob::class);
     }
 
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
+
     public function spare_parts()
     {
         return $this->hasMany(JobTimerSparePart::class);

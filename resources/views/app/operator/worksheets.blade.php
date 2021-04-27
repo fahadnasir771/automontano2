@@ -381,7 +381,8 @@
 					'started': 1,
 					'html_id': html_id,
 					'max_at': TIME_LIMIT,
-					'min_at': MIN_TIME 
+					'min_at': MIN_TIME,
+					'is_task': 0
 				},
 				success: function(data) {
 					console.log(data);
@@ -416,7 +417,8 @@
 				'data': {
 					'_token': $("input[name='_token']").val(),
 					'finished': 1,
-					'html_id': html_id
+					'html_id': html_id,
+					'is_task': 0
 					
 				},
 				success: function(data) {

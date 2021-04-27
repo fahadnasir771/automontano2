@@ -997,8 +997,12 @@
       "url": "/operator/worksheets",
       "name": "Worksheet Jobs",
       "slug": "worksheet-jobs",
-      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
       "icon": "feather icon-clipboard"
+    },
+    {
+      "url": "/operator/tasks",
+      "name": "Tasks",
+      "icon": "feather icon-check-circle"
     },
     {
       "url": "/operator/chat",

@@ -16,6 +16,7 @@ class CreateJobTimersTable extends Migration
         Schema::create('job_timers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('worksheet_job_id');
+            $table->integer('task_id');
             $table->string('html_id');
             
             $table->integer('started')->default(0);

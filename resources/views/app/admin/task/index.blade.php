@@ -40,13 +40,11 @@
               <td class="product-category">{{ $data->min_time }}</td>
               <td class="product-category">{{ $data->max_time }}</td>
               <td>
-                @foreach($data->operators as $operator)
                 <div class="chip chip-success">
                   <div class="chip-body">
-                    <div class="chip-text">{{ $operator->name }}</div>
+                    <div class="chip-text">{{ $users->where('id', $data->operator_id)->first()->name }}</div>
                   </div>
                 </div>
-                @endforeach
               </td>
               <td class="product-action">
                 <span class="action-edit"><a href="{{ route('admin.task.edit', $data->id) }}" ><i class="feather icon-edit"></i></a></span>

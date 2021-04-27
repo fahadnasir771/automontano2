@@ -62,18 +62,10 @@
                                               name="max_time" value="{{ $data->max_time }}" required
                                               data-validation-required-message="This maximun completion time field is required">
                                           <div class="form-control-position" style="top: 20px; right: 20px">
-                                              <b>max.</b>
+                                              <b>min.</b>
                                           </div>
                                       </fieldset>
-                                      {{-- <select class="select2 form-control" name="operators[]" multiple>
-                                        @for($i=0; $i<count($operators); $i++)
-                                          @isset($data->operators[$i])
-                                            <option value="{{ $operators[$i]->id }}" @if($data->operators[$i]->id == $operators[$i]->id) selected  @endif>{{ $operators[$i]->name }}</option>
-                                          @else
-                                          <option value="{{ $operators[$i]->id }}" >{{ $operators[$i]->name }}</option>
-                                          @endisset()
-                                        @endfor
-                                      </select> --}}
+                                      
                                         <div class="form-group col-6">
                                             <label>Operators</label>
                                             <select class="select2 form-control" name="operators[]" multiple>

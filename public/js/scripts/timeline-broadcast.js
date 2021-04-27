@@ -163,6 +163,10 @@ function progress(time) {
 
       $el_job_finished_main.attr('data-mode', 'work-in-progress');
       $el_job_finished.attr('data-status', 3);
+      $.ajax({
+        'url': '/admin/timeline',
+        'method': 'GET'
+      })
       parseInt($el_job_finished_main.attr('data-jobs-done', parseInt($el_job_finished_main.attr('data-jobs-done')) + 1));
 
       // if the finishing job has icreasing width attribute
@@ -207,7 +211,10 @@ function progress(time) {
             
             if($el112.attr('data-mode') == 'job-late'){
               $el112.attr('data-mode', 'normal');
-              
+              $.ajax({
+                'url': '/admin/timeline',
+                'method': 'GET'
+              })
             }
           }
 
@@ -256,6 +263,10 @@ function progress(time) {
             <div class="bar secondary-bar" data-left="` + ( parseFloat($el_job_finished.attr('data-left')) + parseFloat($el_job_finished.attr('data-width')) ) + `" data-worksheet-id="` + $el_job_finished.attr('data-worksheet-id') + `" data-color="` + SKY + `" data-width="` + remained + `" data-mode="early-pre-object-bonus"  data-mode2="" style="display: none"></div>
           `
           );
+          $.ajax({
+            'url': '/admin/timeline',
+            'method': 'GET'
+          })
         }
 
         else if(parseInt($el_job_finished_main.attr('data-jobs-done')) == parseInt($el_job_finished_main.attr('data-jobs'))){
@@ -270,6 +281,10 @@ function progress(time) {
             $el7328 = $el_job_finished.parents('.progressbar3').siblings('.progressbar2').find('.main-bar').eq(w)
             if($el7328.attr('data-mode') == 'normal-job-late'){
               $el7328.attr('data-mode', 'normal')
+              $.ajax({
+                'url': '/admin/timeline',
+                'method': 'GET'
+              })
               $el7328 = $el_job_finished.parents('.progressbar3').siblings('.progressbar2').find('.main-bar').eq(w)
               $el7328_exists = true;
               break
@@ -337,6 +352,10 @@ function progress(time) {
         $el113.attr('data-mode') == 'early-pre-object-bonus'
       ){
         $el113.attr('data-mode', 'normal')
+        $.ajax({
+          'url': '/admin/timeline',
+          'method': 'GET'
+        })
         // Move forward all the next tasks
         for(let k=0; k < $el113.parents('.progressbar3').find('.secondary-bar').length ; k++){
           let $el114 = $el113.parents('.progressbar3').find('.secondary-bar').eq(k) // secondary bar
@@ -377,6 +396,10 @@ function progress(time) {
             $el116 = $el117;
           }
           if($el117.attr('data-mode') == 'normal-job-late'){
+            $.ajax({
+              'url': '/admin/timeline',
+              'method': 'GET'
+            })
             $el118 = $el117;
             $el118_has_job_late = true;
           }
@@ -491,6 +514,10 @@ function progress(time) {
         $('.progressbar2').eq(i).find('.main-bar').eq(j).attr('data-mode') == 'normal-job-late' ||
         $('.progressbar2').eq(i).find('.main-bar').eq(j).attr('data-mode') == 'job-late'
       ){
+        $.ajax({
+          'url': '/admin/timeline',
+          'method': 'GET'
+        })
         has_normal_job_late = true;
         normal_job_late = $('.progressbar2').eq(i).find('.main-bar').eq(j)
       }
@@ -649,12 +676,19 @@ function progress(time) {
 // Pusher worksheet job
 channel.bind('worksheetJob', function(data) {
   if(data.started == 1){
-    
+    $.ajax({
+      'url': '/admin/timeline',
+      'method': 'GET'
+    })
     bootstrap(data.operator, data.main, data.secondary, data.append_html);
     OPERATOR_ID = data.operator;
    
   }
   if(data.stopped == 1){
+    $.ajax({
+      'url': '/admin/timeline',
+      'method': 'GET'
+    })
     halt(data.operator);
    
   }
@@ -678,6 +712,10 @@ function bootstrap(id, main, sec, html_on){
       for(let j=0; j < $el_start.parents('.progressbar2').find('.main-bar').length; j++){
         if($el_start.parents('.progressbar2').find('.main-bar').eq(j).attr('data-mode') == 'job-late'){
           $el_start.parents('.progressbar2').find('.main-bar').eq(j).attr('data-mode', 'normal-job-late');
+          $.ajax({
+            'url': '/admin/timeline',
+            'method': 'GET'
+          })
         }
       }
 
@@ -708,6 +746,10 @@ function bootstrap(id, main, sec, html_on){
           parseInt($sec_el_id.attr('data-status')) == 0
         ){
           $sec_el_id.attr('data-status', 1);
+          $.ajax({
+            'url': '/admin/timeline',
+            'method': 'GET'
+          })
           $sec_el_id.attr('data-color', PURPLE);
           break;
         }
@@ -719,7 +761,10 @@ function bootstrap(id, main, sec, html_on){
       for(let j=0; j < $el_start.parents('.progressbar2').siblings('.progressbar3').find('.secondary-bar').length; j++){
         $el_early_pre_object_bonus = $el_start.parents('.progressbar2').siblings('.progressbar3').find('.secondary-bar').eq(j);
         if($el_early_pre_object_bonus.attr('data-mode') == 'early-pre-object-bonus'){
-
+          $.ajax({
+            'url': '/admin/timeline',
+            'method': 'GET'
+          })
           let hehe = parseFloat(TIME * SEC_PX) - parseFloat($el_early_pre_object_bonus.attr('data-left'))
           let remained = 
           (parseFloat($el_early_pre_object_bonus.attr('data-width'))) - hehe;
@@ -758,6 +803,10 @@ function bootstrap(id, main, sec, html_on){
               
               $el34970 = $el_early_pre_object_bonus.parents('.progressbar3').siblings('.progressbar2').find('.main-bar').eq(z);
               if($el34970.attr('data-mode') == 'job-late' || $el34970.attr('data-mode') == 'normal-job-late'){
+                $.ajax({
+                  'url': '/admin/timeline',
+                  'method': 'GET'
+                })
                 $el3827_has_job_late = true;
                 if((parseFloat($el34970.attr('data-width')) - remained) < 0 ){
                   $el34970.remove();
@@ -823,6 +872,10 @@ function bootstrap(id, main, sec, html_on){
 
           $el_early_pre_object_bonus.attr('data-width', hehe);
           $el_early_pre_object_bonus.attr('data-mode', 'move-early-pre-object-bonus');
+          $.ajax({
+            'url': '/admin/timeline',
+            'method': 'GET'
+          })
 
         }
       }
@@ -846,7 +899,10 @@ function halt(id){
     let $el_finish = $('#' + id).siblings('.progressbar2').siblings('.progressbar3').find('.secondary-bar').eq(i);
     if(parseInt($el_finish.attr('data-status')) == 1){
       $el_finish.attr('data-status', 2);
-
+      $.ajax({
+        'url': '/admin/timeline',
+        'method': 'GET'
+      })
     }
   }
 };
@@ -943,6 +999,10 @@ function render_secondary_bar(){
       }
 
       if($el_all_sec.eq(j).attr('data-mode') == 'move-early-pre-object-bonus'){
+        $.ajax({
+          'url': '/admin/timeline',
+          'method': 'GET'
+        })
         let laststatus3 = '';
         for(let e=0; e < $el_all_sec.eq(j).parents('.progressbar3').find('.secondary-bar').length; e++){
           if(parseInt($el_all_sec.eq(j).parents('.progressbar3').find('.secondary-bar').eq(e).attr('data-status')) == 3){

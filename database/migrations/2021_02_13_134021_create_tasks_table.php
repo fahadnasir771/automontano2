@@ -18,6 +18,10 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->string('min_time');
             $table->string('max_time');
+            $table->timestamp('work_start');
+            $table->integer('operator_id');
+            $table->integer('started')->default(0);
+            $table->integer('completed')->default(0);
             $table->timestamps();
         });
     }

@@ -91,6 +91,10 @@ Route::group([
   Route::get('worksheets', 'OperatorController@worksheets')->name('worksheets.index');
   Route::post('start-timer', 'OperatorController@timer')->name('timer');
 
+  // Tasks
+  Route::get('tasks', 'OperatorController@tasks')->name('tasks.index');
+  
+
   //Chat
   Route::resource('chat', 'ChatController');
   Route::get('chat_status/{id}', 'ChatController@chat_status');

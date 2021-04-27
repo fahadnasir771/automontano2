@@ -22,4 +22,8 @@ class Task extends Model
     {
       return $this->belongsToMany(User::class);
     }
+
+    public function timer(){
+      return $this->hasOne(JobTimer::class);
+    }
 }

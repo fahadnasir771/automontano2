@@ -5,10 +5,10 @@ The project to maintain the workflow of a car mechanic shop
 Change the .env file to match your database credentials
 
 ## Migration
-php artisan migrate to migrate database
+<php artisan migrate> to migrate database
 
 ## Seed
-php artisan db:seed to create the admin user 
+<php artisan db:seed> to create the admin user 
 
   - User: fahad@admin.com
   - Pass: 123456

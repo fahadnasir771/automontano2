@@ -135,6 +135,7 @@ class WorksheetController extends Controller
         $customer = $data['customer'];
         $meta = $data['meta'];
 
+        // dd($existing_objects);
 
 
         #### 0: Creating Customer Account
@@ -204,6 +205,7 @@ class WorksheetController extends Controller
                 ### 3.1: Create timers for each job
                 $timer = new JobTimer();
                 $timer->worksheet_job_id = $job[$i]->id;
+                $timer->task_id = 0;
                 $timer->html_id = 'w' . $worksheet->id . '-j' . ($i+1);
                 $timer->save();
             }
@@ -258,49 +260,103 @@ class WorksheetController extends Controller
         $month = explode('-', $date_str)[1];
         $date = explode('-', $date_str)[2];
 
-        ## 9.1: Insert into late bar
-        $same = array();
-        $sum = array();
-        for($i=0; $i < count($existing_objects); $i++){
+        ## 9.1: Insert into late bar (Existing Jobs)
+        if($existing_objects[0]['object'] != null){
+            $same = array();
+            $sum = array();
+            for($i=0; $i < count($existing_objects); $i++){
 
-            if(in_array($existing_objects[$i]['operator'], $same)){
-                for ($j=0; $j < count($sum); $j++) { 
-                    if($sum[$j]['operator'] == $existing_objects[$i]['operator']){
-                        $object2 = WorksheetObject::find($existing_objects[$i]['object']);
-                        $calc2 = ($object2->max_time * 60) * $SEC_PX;
+                if(in_array($existing_objects[$i]['operator'], $same)){
+                    for ($j=0; $j < count($sum); $j++) { 
+                        if($sum[$j]['operator'] == $existing_objects[$i]['operator']){
+                            $object2 = WorksheetObject::find($existing_objects[$i]['object']);
+                            $calc2 = ($object2->max_time * 60) * $SEC_PX;
 
-                        $sum[$j]['width'] += $calc2;
-                        break;
+                            $sum[$j]['width'] += $calc2;
+                            break;
+                        }
                     }
+                }else{
+                    $object1 = WorksheetObject::find($existing_objects[$i]['object']);
+                    $calc1 = ($object1->max_time * 60) * $SEC_PX;
+
+                    $sum[$i]['operator'] = $existing_objects[$i]['operator'];
+                    $sum[$i]['width'] = $calc1;
+                    array_push($same, $existing_objects[$i]['operator']);
                 }
-            }else{
-                $object1 = WorksheetObject::find($existing_objects[$i]['object']);
-                $calc1 = ($object1->max_time * 60) * $SEC_PX;
-
-                $sum[$i]['operator'] = $existing_objects[$i]['operator'];
-                $sum[$i]['width'] = $calc1;
-                array_push($same, $existing_objects[$i]['operator']);
+                
             }
-            
-        }
-        $sum = array_values($sum);  
-        for($i=0; $i < count($sum); $i++){
-            $late_bar = new LateBar();
-            $late_bar->user_id = $sum[$i]['operator'];
+            $sum = array_values($sum);  
+            for($i=0; $i < count($sum); $i++){
+                $late_bar = new LateBar();
+                $late_bar->user_id = $sum[$i]['operator'];
 
-            # Calculating Left
-            $late_bar_left = (($hr * 60 * 60) + ($min * 60)) * $SEC_PX;
-            $late_bar->left = $late_bar_left;
+                # Calculating Left
+                $late_bar_left = (($hr * 60 * 60) + ($min * 60)) * $SEC_PX;
+                $late_bar->left = $late_bar_left;
 
-            $late_bar->width = $sum[$i]['width'];
-            $late_bar->color = '#343434';
-            $late_bar->text = $vehicle['license_plate'];
-            $late_bar->date = $date;
-            $late_bar->month = $month;
-            $late_bar->year = $year;
-            
-            $late_bar->save();
+                $late_bar->width = $sum[$i]['width'];
+                $late_bar->color = '#343434';
+                $late_bar->text = $vehicle['license_plate'];
+                $late_bar->date = $date;
+                $late_bar->month = $month;
+                $late_bar->year = $year;
+                
+                $late_bar->save();
+            }
         }
+        
+
+        ## 9.2: Insert into late bar (Created Jobs)
+        if($create_objects[0]['object'] != null){
+            $same2 = array();
+            $sum2 = array();
+            for($i=0; $i < count($create_objects); $i++){
+
+                if(in_array($create_objects[$i]['operator'], $same2)){
+                    for ($j=0; $j < count($sum2); $j++) { 
+                        if($sum2[$j]['operator'] == $create_objects[$i]['operator']){
+
+                            // $object2 = WorksheetObject::find($create_objects[$i]['object']);
+                            $calc2 = ($create_objects[$i]['max_time'] * 60) * $SEC_PX;
+
+                            $sum2[$j]['width'] += $calc2;
+                            break;
+
+                        }
+                    }
+                }else{
+
+                    // $object1 = WorksheetObject::find($create_objects[$i]['object']);
+                    $calc1 = ($create_objects[$i]['max_time'] * 60) * $SEC_PX;
+
+                    $sum2[$i]['operator'] = $create_objects[$i]['operator'];
+                    $sum2[$i]['width'] = $calc1;
+                    array_push($same2, $create_objects[$i]['operator']);
+
+                }
+                
+            }
+            $sum2 = array_values($sum2);  
+            for($i=0; $i < count($sum2); $i++){
+                $late_bar = new LateBar();
+                $late_bar->user_id = $sum2[$i]['operator'];
+
+                # Calculating Left
+                $late_bar_left = (($hr * 60 * 60) + ($min * 60)) * $SEC_PX;
+                $late_bar->left = $late_bar_left;
+
+                $late_bar->width = $sum2[$i]['width'];
+                $late_bar->color = '#343434';
+                $late_bar->text = $vehicle['license_plate'];
+                $late_bar->date = $date;
+                $late_bar->month = $month;
+                $late_bar->year = $year;
+                
+                $late_bar->save();
+            }
+        }
+        
 
         
         if(str_contains(Route::current()->uri, 'admin/')){
