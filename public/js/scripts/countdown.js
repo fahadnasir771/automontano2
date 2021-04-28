@@ -51,7 +51,7 @@ if(VIEW_ONLY == 0){
       'transition': 'background 0.5s'
     });
     
-    $('.start').not(target).toggleClass('icon-play icon-clock');
+    $('.start').not(target).toggleClass('ttt icon-lock');
     $('.start').not(target).removeClass('start');
     
     startTimer();

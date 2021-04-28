@@ -166,11 +166,17 @@
               return false;
           }
 
+
           if(
             year2 >= year3 &&
             month2 >= month3 &&
             datenum2 >= date3
           ){
+            if(datenum2 > date3){
+                $('#form').submit()
+                $error = false;
+                return false;
+            }
             if(
               hr2 > hr3 ||
               (
@@ -178,6 +184,7 @@
               )
             ){
                 $('#form').submit()
+
               $error = false;
             }
           }

@@ -78,7 +78,7 @@
                                             <label>Operators</label>
                                             <select class="select2 form-control" name="operators[]" multiple>
                                                 @foreach ($operators as $operator)
-                                                    <option value="{{ $operator->id }}">{{ $operator->name }}</option>
+                                                    <option value="{{ $operator->id }}" selected>{{ $operator->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

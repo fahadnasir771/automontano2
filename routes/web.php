@@ -49,6 +49,19 @@ Route::group([
   // Task
   Route::resource('task', 'TaskController');
 
+  // Manage Worksheet
+  Route::get('manage/failure/{id}', 'ManageWorksheetController@failure_index')->name('manage.failure_index');
+  Route::put('manage/failure/{id}', 'ManageWorksheetController@failure_update')->name('manage.failure_update');
+
+  Route::get('manage/spare/{id}', 'ManageWorksheetController@spare_index')->name('manage.spare_index');
+  Route::put('manage/spare/{id}', 'ManageWorksheetController@spare_update')->name('manage.spare_update');
+
+  Route::get('manage/jobs/{id}', 'ManageWorksheetController@jobs_index')->name('manage.jobs_index');
+  Route::put('manage/jobs/{id}', 'ManageWorksheetController@jobs_update')->name('manage.jobs_update');
+
+  Route::get('manage/vehicle/{id}', 'ManageWorksheetController@vehicle_index')->name('manage.vehicle_index');
+  Route::put('manage/vehicle/{id}', 'ManageWorksheetController@vehicle_update')->name('manage.vehicle_update');
+
   // Timeline
   Route::get('timeline', 'TimelineController@index');
   Route::post('timeline', 'TimelineController@update')->name('update');

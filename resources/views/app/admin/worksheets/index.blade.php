@@ -174,7 +174,7 @@
 
                 <div style="clear: both">
                   <div class="d-flex justify-content-between mt-2" >
-                    <h6>Work Progress ({{ $percentage }}%)</h6>
+                    <h6>Work Progress ({{ (int)$percentage }}%)</h6>
                   </div>
                   <div class="progress progress-bar-@php
                       if($percentage < 25){
@@ -219,11 +219,12 @@
           </div>
           <div class="overlay">
             
-              <a href="#" class="btn btn-dark overlay-btn dev">Manage Failures</a>
-              <a href="#" class="btn btn-dark overlay-btn dev">Manage Spare Parts</a>
-              <a href="#" class="btn btn-dark overlay-btn dev">Manage Jobs</a>
-              <a href="#" class="btn btn-dark overlay-btn dev">Manage Vehicle / Customer</a>
-              <a href="timeline-by-worksheet?wid={{ $worksheet->id }}" class="btn btn-danger overlay-btn">View Timeline</a>
+              <a href="{{ route('admin.manage.failure_index', $worksheet->id) }}" class="btn btn-dark overlay-btn">Manage Failures</a>
+              <a href="{{ route('admin.manage.spare_index', $worksheet->id) }}" class="btn btn-dark overlay-btn">Manage Spare Parts</a>
+              <a href="{{ route('admin.manage.jobs_index', $worksheet->id) }}" class="btn btn-dark overlay-btn">Manage Jobs</a>
+              <a href="{{ route('admin.manage.vehicle_index', $worksheet->id) }}" class="btn btn-dark overlay-btn">Manage Vehicle</a>
+              <a href="#" class="btn btn-dark overlay-btn">Manage Customer</a>
+              <a href="timeline-by-worksheet?wid={{ $worksheet->id }}" class="btn btn-danger overlay-btn">Delete Worksheet</a>
            
             
           </div>

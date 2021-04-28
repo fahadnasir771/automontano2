@@ -21,6 +21,7 @@ class CreateSecondaryBarsTable extends Migration
             $table->text('color');
             $table->text('mode');
             $table->text('mode2');
+            $table->text('mode3')->nullable();
             $table->text('main_bar_id');
             $table->text('objects_index');
             $table->text('status');

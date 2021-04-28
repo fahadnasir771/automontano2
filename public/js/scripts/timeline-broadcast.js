@@ -192,7 +192,7 @@ function progress(time) {
           }
           $el_job_finished.parents('.progressbar3').append(
           `
-            <div class="bar secondary-bar" data-left="` + ( parseFloat($el_job_finished.attr('data-left')) + parseFloat($el_job_finished.attr('data-width')) ) + `" data-color="` + GRAY + `" data-width="` + 0 + `" data-mode="delay1"  data-mode2="" style="display: none"></div>
+            <div class="bar secondary-bar" data-left="` + ( parseFloat($el_job_finished.attr('data-left')) + parseFloat($el_job_finished.attr('data-width')) ) + `" data-color="` + GRAY + `" data-width="` + 0 + `" data-mode="delay1"  data-mode2="" data-mode3="" style="display: none"></div>
           `
           );
 
@@ -260,7 +260,7 @@ function progress(time) {
 
           $el_job_finished.parents('.progressbar3').append(
           `
-            <div class="bar secondary-bar" data-left="` + ( parseFloat($el_job_finished.attr('data-left')) + parseFloat($el_job_finished.attr('data-width')) ) + `" data-worksheet-id="` + $el_job_finished.attr('data-worksheet-id') + `" data-color="` + SKY + `" data-width="` + remained + `" data-mode="early-pre-object-bonus"  data-mode2="" style="display: none"></div>
+            <div class="bar secondary-bar" data-left="` + ( parseFloat($el_job_finished.attr('data-left')) + parseFloat($el_job_finished.attr('data-width')) ) + `" data-worksheet-id="` + $el_job_finished.attr('data-worksheet-id') + `" data-color="` + SKY + `" data-width="` + remained + `" data-mode="early-pre-object-bonus"  data-mode3=""   data-mode2="" style="display: none"></div>
           `
           );
           $.ajax({
@@ -372,7 +372,7 @@ function progress(time) {
         // append gray delay bar in 3rd line
         $el113.parents('.progressbar3').append(
         `
-          <div class="bar secondary-bar" data-left="` + ( parseFloat($el113.attr('data-left')) + parseFloat($el113.attr('data-width')) ) + `" data-color="` + GRAY + `" data-width="0" data-mode="delay1"  data-mode2="" style="display: none"></div>
+          <div class="bar secondary-bar" data-left="` + ( parseFloat($el113.attr('data-left')) + parseFloat($el113.attr('data-width')) ) + `" data-color="` + GRAY + `" data-width="0"  data-mode3=""  data-mode="delay1"  data-mode2="" style="display: none"></div>
         `
         );
         $.ajax({
@@ -913,6 +913,18 @@ function render_timeline(){
   render_main_bar()
   render_secondary_bar()
   render_late_bar()
+
+  for (let i = 0; i < $('.secondary-bar').length; i++) {
+    const $el = $('.secondary-bar').eq(i);
+    if($el.attr('data-mode3') != ''){
+      
+      $el.css({
+        'background': $el.attr('data-mode3').split('-')[0],
+      })
+    }
+    
+    
+  }
 }
 
 // Rendering Secondary bar

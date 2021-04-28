@@ -18,6 +18,9 @@
   <!-- vendor css files -->
 	<link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.css')) }}">
 	<link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+
+	<link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
 @endsection
 
 @section('page-style')
@@ -103,6 +106,9 @@
 		cursor: pointer;
 		transition: transform 0.4s;
 	}
+	.timer-overlay.lock {
+		background: gray;
+	}
 	.timer-overlay:hover{
 		transform: scale(1.1);
 		transition: transform 0.4s;
@@ -139,6 +145,42 @@
 			</div>
 		</form>
 	@endif
+
+	@php
+	$default = false;
+	$selected = 0;
+		foreach ($worksheets as $ws) {
+
+			$jobs_completed = 0;
+			
+			for ($e=0; $e < count($ws['jobs']) ; $e++) { 
+				
+				if($ws['jobs'][$e]->timer->finished == 1){
+					
+					$jobs_completed += 1;
+				}
+			}
+
+			if($jobs_completed > 0 && $jobs_completed < count($ws['jobs'])){
+				for ($l=0; $l < count($timers); $l++) { 
+					
+					if($timers[$l]['timer']->html_id == explode('-', $ws['jobs'][0]->timer->html_id )[0] . '-j' . ($jobs_completed + 1)){
+						 $selected = $timers[$l]['timer']->id;
+						 $default = false;
+						break;
+					}
+				}
+				
+				// exit();
+				break;
+			}else{
+				$default = true;
+			}
+
+		}
+
+
+	@endphp
 	
 
 	{{-- FOR ALL WORKS --}}
@@ -162,7 +204,7 @@
 			}
 
 		}else{
-			echo '<p style="color: red">Per la fase di test, avviare i lavori in sequenza, prima il lavoro e poi il successivo</p>';
+			
 			$operator_jobs = false;
 			for ($i=0; $i < count($ws->jobs); $i++) { 
 				if($ws->jobs[$i]->operator_id == Auth::user()->id){
@@ -213,18 +255,22 @@
 		{{-- jobs --}}
 		<div class="col-lg-3 col-md-12">
 			<div class="card" style="position: relative">
-
-				<div class="dropdown chart-dropdown">
-					<button class="btn btn-sm border-0 px-50 float-right" style="top: 4px; font-size: 20px; position: absolute; right: 0;z-index:1" type="button" id="dropdownItem1"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="feather icon-more-vertical"></i>
-					</button>
-					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem1">
-						<a class="dropdown-item dev" href="#">Spare Part</a>
-						<a class="dropdown-item dev" href="#">Pause Work</a>
-						<a class="dropdown-item dev" href="#">Stop Work</a>
+				@if ( !(Auth::user()->role == 1  || Auth::user()->role == 2 )  )
+					@if ($job->completed == 0 && $job->timer->in_progress == 1)
+						<div class="dropdown chart-dropdown " >
+							<button class="btn btn-sm border-0 px-50 float-right" style="top: 4px; font-size: 20px; position: absolute; right: 0;z-index:1" type="button" id="dropdownItem1"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="feather icon-more-vertical"></i>
+							</button>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownItem1">
+								<a class="dropdown-item dev" href="#">Spare Part</a>
+								<a class="dropdown-item dev" href="#">Pause Work</a>
+								<a class="dropdown-item stop-work" href="#">Stop Work</a>
+							</div>
 					</div>
-			</div>
+					@endif
+					
+				@endif
 
 				<div class="card-header pb-0" style="padding-top: 30px" >
 					<h4 style="position: absolute;left:50%;transform: translateX(-50%);width : 100%; text-align: center">{{ $job->object->title }}</h4>
@@ -253,14 +299,51 @@
 							{{-- style="background:#193465" --}}
 							@if (!(Auth::user()->role == 1  || Auth::user()->role == 2))
 								<div 
-									class="timer-overlay {{ ($job->completed == 1) ? 'completed feather icon-check' : 'start feather icon-play' }} " 
+									class="timer-overlay 
+									@php
+										if($job->completed == 1){
+											if($job->timer->stop_work == 1){
+												echo 'timer-overlay completed feather icon-x';
+											}else{
+												echo 'timer-overlay completed feather icon-check';
+											}
+										}else{
+											if($default == false){
+												if($job->timer->id == $selected){
+													echo 'start feather ttt icon-play';
+												}else{
+													echo 'lock feather ttt icon-lock';
+												}
+											}else{
+												if($job->timer->html_id == explode('-', $job->timer->html_id)[0] . '-j1'){
+													echo 'start feather ttt icon-play';
+												}else{
+													echo 'lock feather ttt icon-lock';
+												}
+											}
+
+											
+										}
+									@endphp
+									" 
 									
 								></div>	
 							@endif
 
 							@if ((Auth::user()->role == 1  || Auth::user()->role == 2))
 								<div 
-									class="{{ ($job->completed == 1) ? 'timer-overlay completed feather icon-check' : '' }} view-only"
+								{{-- {{ ($job->completed == 1) ?  : '' }} --}}
+									class="
+												@php
+													if($job->completed == 1){
+														if($job->timer->stop_work == 1){
+															echo 'timer-overlay completed feather icon-x';
+														}else{
+															echo 'timer-overlay completed feather icon-check';
+														}
+													}
+												@endphp
+									view-only"
 									data-job-progress="{{ ($job->timer->in_progress == 1) ? 1 : 0 }}"
 									data-time-limit="{{ $job->timer->max_at - $job->timer->started_at }}"
 									data-seek="{{ strtotime('now') - $job->timer->started_at   }}"
@@ -283,7 +366,10 @@
 						<br>
 						@php
 							if ($job->completed == 1) {
-								if($job->timer->finished_at >= $job->timer->max_at) {
+								if($job->timer->stop_work == 1){
+									echo '<span style="color: red;font-size: 15px">Stopped: --:--:-- </span>';
+								}
+								elseif($job->timer->finished_at >= $job->timer->max_at) {
 									$seconds = $job->timer->finished_at - $job->timer->max_at;
 									$hours = floor($seconds / 3600);
 									$mins = floor($seconds / 60 % 60);
@@ -349,10 +435,14 @@
   <!-- vendor files -->
 	<script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
 	<script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>	
+
+	<script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/extensions/polyfill.min.js')) }}"></script>
 @endsection
 @section('page-script')
 	<!-- Page js files -->
 	<script src="{{ asset(mix('js/scripts/forms/select/form-select2.js')) }}"></script>
+	<script src="{{ asset(mix('js/scripts/extensions/sweet-alerts.js')) }}"></script>
 	<script>
 		var VIEW_ONLY = '{{ (Auth::user()->role == 1 || Auth::user()->role == 2) ? "1" : "0" }}';
 		// if(parseInt(VIEW_ONLY) == 1){
@@ -362,7 +452,51 @@
 	</script>
 	<script type="text/javascript" src="{{ asset('js/scripts/countdown.js') }}"></script>
 	<script type="text/javascript">
-		
+		$('.stop-work').on('click', function(){
+			html_id = '{{ isset($timer_continue->html_id) ? $timer_continue->html_id : '' }}'
+			Swal.mixin({
+				input: 'text',
+				confirmButtonText: 'Submit',
+				showCancelButton: true,
+				// progressSteps: ['1', '2'],
+				confirmButtonClass: 'btn btn-primary',
+				buttonsStyling: false,
+				cancelButtonClass: "btn btn-danger ml-1"
+			}).queue([
+				{
+					title: 'Stop Work',
+					text: 'Please provide the justification to stop work.'
+				}
+				
+			]).then(function (result) {
+				
+				$.ajax({
+					'url': '{{ route("operator.timer") }}',
+					'type': 'POST',
+					'data': {
+						'_token': $("input[name='_token']").val(),
+						'finished': 1,
+						'html_id': html_id,
+						'is_task': 0,
+						'stopped': 1,
+						'stop_justification': result.value
+						
+					},
+					success: function(data) {
+						console.log(data);
+						Swal.fire({
+							title: 'Submitted!',
+							
+							confirmButtonText: 'OK!'
+						}).then(function(){
+							window.location.reload(false);
+						})
+					}
+				});
+
+			})
+
+		});
 
 		$(ID).on('click', '.start' ,  (el) => {
 			start_nutshell(el.target);

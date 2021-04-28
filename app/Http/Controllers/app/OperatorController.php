@@ -34,10 +34,11 @@ class OperatorController extends Controller
         if(!$in_progress_found){
             $in_progress = false;
         }
-
+        // return WorksheetJob::with('timer')->where('operator_id', Auth::user()->id)->get();
         return view('app.operator.worksheets')->with([
             'timer_continue' => $in_progress,
-            'worksheets' => Worksheet::with(['jobs.timer','jobs.object'])->where('customer_accepted', 1)->get()
+            'worksheets' => Worksheet::with(['jobs.timer','jobs.object'])->where('customer_accepted', 1)->get(),
+            'timers' => WorksheetJob::with('timer')->where('operator_id', Auth::user()->id)->get()
         ]);
     }
 
@@ -195,6 +196,8 @@ class OperatorController extends Controller
                     $secondary_bar->year = date('Y');
                     $secondary_bar->save();
 
+                    array_push($secondary_bar_html, '<div class="bar secondary-bar" data-left="' . $secondary_bar->left . '" data-color="#434343" data-width="' . $secondary_bar->width . '" data-mode="pre-object" data-worksheet-id="' . $secondary_bar->main_bar_id . '" data-object-index="' . $secondary_bar->objects_index . '" data-status="0" data-position="' . $secondary_bar->position . '" data-mode2="" data-mode3="" data-id="' . $secondary_bar->id . '" style="display: none">' . $secondary_bar->text . '</div>');
+
                 }else{
                     $secondary_bar_objects = array();
                     for($i=0; $i < count($objects1); $i++){
@@ -244,11 +247,11 @@ class OperatorController extends Controller
                         $secondary_bar->year = date('Y');
                         $secondary_bar->save();
 
-                        
+                        array_push($secondary_bar_html, '<div class="bar secondary-bar" data-left="' . $secondary_bar->left . '" data-color="#434343" data-width="' . $secondary_bar->width . '" data-mode="pre-object" data-worksheet-id="' . $secondary_bar->main_bar_id . '" data-object-index="' . $secondary_bar->objects_index . '" data-status="0" data-position="' . $secondary_bar->position . '" data-mode2="" data-mode3="" data-id="' . $secondary_bar->id . '" style="display: none">' . $secondary_bar->text . '</div>');
                     }
                 }
                 
-                array_push($secondary_bar_html, '<div class="bar secondary-bar" data-left="' . $secondary_bar->left . '" data-color="#434343" data-width="' . $secondary_bar->width . '" data-mode="pre-object" data-worksheet-id="' . $secondary_bar->main_bar_id . '" data-object-index="' . $secondary_bar->objects_index . '" data-status="0" data-position="' . $secondary_bar->position . '" data-mode2="" data-id="' . $secondary_bar->id . '" style="display: none">' . $secondary_bar->text . '</div>');
+                
 
                 $data = [
                     'started' => 1,
@@ -275,17 +278,17 @@ class OperatorController extends Controller
                     $update_sec_bar_2->save();
 
                     // Updating job-late main bar
-                    if(
-                        $update_main_bar_4 = MainBar::where('user_id', Auth::id())
-                                                    ->where('mode', 'job-late')
-                                                    ->exists()
-                    ){
-                        $update_main_bar_4 = MainBar::where('user_id', Auth::id())
-                                                ->where('mode', 'job-late')
-                                                ->first();
-                        $update_main_bar_4->width = $update_main_bar_4->width + ((time() - strtotime($update_main_bar_4->updated_at)) * $SEC_PX);
-                        $update_main_bar_4->save();
-                    }
+                    // if(
+                    //     $update_main_bar_4 = MainBar::where('user_id', Auth::id())
+                    //                                 ->where('mode', 'job-late')
+                    //                                 ->exists()
+                    // ){
+                    //     $update_main_bar_4 = MainBar::where('user_id', Auth::id())
+                    //                             ->where('mode', 'job-late')
+                    //                             ->first();
+                    //     $update_main_bar_4->width = $update_main_bar_4->width + ((time() - strtotime($update_main_bar_4->updated_at)) * $SEC_PX);
+                    //     $update_main_bar_4->save();
+                    // }
                     
 
                     // Updating work under progress main bar
@@ -549,9 +552,16 @@ class OperatorController extends Controller
             ];
             $pusher->trigger('my-channel', 'worksheetJob', $data);
 
+            $timer_data = JobTimer::where('html_id', $request->html_id)->first();
+            // return $timer_data;
+            // exit();
+            
             // When he stop his work (Basic config for sec bar)
             $update_sec_1 = SecondaryBar::where('user_id', Auth::id())->where('status', '1')->first();
             $update_sec_5 = SecondaryBar::where('user_id', Auth::id())->where('status', '1')->first();
+            if($request->stopped == 1){
+                $update_sec_1->mode3 = 'red-stopped';
+            }
             $update_sec_1->status = 3;
             $update_sec_1->width = $update_sec_1->width + ((time() - strtotime($update_sec_1->updated_at)) * $SEC_PX);
             $update_sec_1->mode2 = 'normal';
@@ -572,17 +582,17 @@ class OperatorController extends Controller
                 $update_main_bar_5 = MainBar::where('user_id', Auth::id())->where('mode', 'work-in-progress')->first();
                 if($update_main_bar_5->jobs == $update_main_bar_5->jobs_done){
 
-                    if(
-                        MainBar::where('user_id', Auth::id())
-                                ->where('mode', 'job-late')
-                                ->exists()
-                    ){
-                        $update_main_bar_4 = MainBar::where('user_id', Auth::id())
-                                                    ->where('mode', 'job-late')
-                                                    ->first();
-                        $update_main_bar_4->width = $update_main_bar_4->width + ((time() - strtotime($update_main_bar_4->updated_at)) * $SEC_PX);
-                        $update_main_bar_4->save();
-                    }   
+                    // if(
+                    //     MainBar::where('user_id', Auth::id())
+                    //             ->where('mode', 'job-late')
+                    //             ->exists()
+                    // ){
+                    //     $update_main_bar_4 = MainBar::where('user_id', Auth::id())
+                    //                                 ->where('mode', 'job-late')
+                    //                                 ->first();
+                    //     $update_main_bar_4->width = $update_main_bar_4->width + ((time() - strtotime($update_main_bar_4->updated_at)) * $SEC_PX);
+                    //     $update_main_bar_4->save();
+                    // }   
                     
 
                     // Main Bar
@@ -858,8 +868,7 @@ class OperatorController extends Controller
 
 
 
-            $timer_data = JobTimer::where('html_id', $request->html_id)->first();
-
+            
             if($request->is_task == 1){
                 $task_data1 = Task::find($timer_data->task_id);
                 Task::where('id', $task_data1->id)->update([
@@ -873,14 +882,30 @@ class OperatorController extends Controller
                     'completed' => 1,
                 ]);
             }
+
+            if($request->stopped == 1){
+                JobTimer::where('html_id', $request->html_id)->update([
+                    //timer
+                    'in_progress' => 0,
+                    'finished' => 1,
+                    'finished_at' => time(),
+                    'stop_work' => 1,
+                    'stop_work_justificaton' => $request->stop_justification
+                ]);
+                // SecondaryBar::where('user_id', Auth::id())->where('status', '3')->update([
+                //     'mode3' => 'red-stopped'
+                // ]);
+            }else{
+                JobTimer::where('html_id', $request->html_id)->update([
+                    //timer
+                    'in_progress' => 0,
+                    'finished' => 1,
+                    'finished_at' => time()
+                ]);
+            }
             
 
-            JobTimer::where('html_id', $request->html_id)->update([
-                //timer
-                'in_progress' => 0,
-                'finished' => 1,
-                'finished_at' => time()
-            ]);
+
 
         }
     }

@@ -17,7 +17,7 @@ class CreateWorksheetFailuresTable extends Migration
             $table->bigIncrements('id');
             $table->integer('worksheet_id');
             $table->string('failure_title');
-            $table->string('failure_quotation');
+            $table->string('failure_quotation')->nullable();
             $table->timestamps();
 
             $table->foreign('worksheet_id')->references('id')->on('worksheets')->onDelete('cascade');

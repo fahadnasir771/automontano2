@@ -94,10 +94,33 @@
                                   </div>
                                 </div>
                                 <div class="form-group col-4">
-                                  <div class="controls">
+                                  <div class="controls" >
                                     <label>Fuel Level</label>
-                                    <input type="number" name="vehicle[fuel_level]" placeholder="78%" class="form-control" required>
+                                    <br>
+                                    <input style="width:20%; display: inline-block" type="number" name="vehicle[fuel_level]" placeholder="78%" class="form-control fuel" required>
+
+                                    <div class="btn-group" style="margin-left: 10px">
+                                      <button type="button" class="btn btn-outline-primary  fuel-level waves-effect waves-light">25</button>
+                                      <button type="button" class="btn btn-outline-primary fuel-level waves-effect waves-light">50</button>
+                                      <button type="button" class="btn btn-outline-primary fuel-level waves-effect waves-light">75</button>
+                                      <button type="button" class="btn btn-outline-primary fuel-level waves-effect waves-light">100</button>
+                                    </div>
+                                    <style>
+                                      .fuel-level {
+                                        
+                                        padding: 9px 23px
+                                      }
+                                      
+                                    </style>
+                                    <script>
+                                      $('.fuel-level').on('click', function(){
+                                        $('.fuel').val($(this).text())
+                                      })
+                                    </script>
+
                                   </div>
+                                  
+
                                 </div>
                                 <div class="form-group col-4">
                                   <div class="controls">
@@ -106,29 +129,56 @@
                                   </div>
                                 </div>
             
-                                <div class="col-lg-12 col-md-12">
+                                <div class="col-lg-3 col-md-12">
                                   <fieldset class="form-group">
-                                      <label for="basicInputFile">Add Multiple Images</label>
+                                      <label for="basicInputFile">Picture 1</label>
                                       <div class="custom-file" >
-                                          <input type="file" name="vehicle[images][]" class="custom-file-input"  id="images" multiple required>
+                                          <input type="file" name="vehicle[images][0]" class="custom-file-input"  id="images"  required>
                                           <label class="custom-file-label images"  for="inputGroupFile01">Choose Images</label>
                                       </div>
                                   </fieldset>
                               </div>
+                              <div class="col-lg-3 col-md-12">
+                                <fieldset class="form-group">
+                                    <label for="basicInputFile">Picture 2</label>
+                                    <div class="custom-file" >
+                                        <input type="file" name="vehicle[images][1]" class="custom-file-input"  id="images">
+                                        <label class="custom-file-label images"  for="inputGroupFile01">Choose Images</label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                              <fieldset class="form-group">
+                                  <label for="basicInputFile">Picture 3</label>
+                                  <div class="custom-file" >
+                                      <input type="file" name="vehicle[images][2]" class="custom-file-input"  id="images">
+                                      <label class="custom-file-label images"  for="inputGroupFile01">Choose Images</label>
+                                  </div>
+                              </fieldset>
+                          </div>
+                          <div class="col-lg-3 col-md-12">
+                            <fieldset class="form-group">
+                                <label for="basicInputFile">Picture 4  </label>
+                                <div class="custom-file" >
+                                    <input type="file" name="vehicle[images][3]" class="custom-file-input"  id="images">
+                                    <label class="custom-file-label images"  for="inputGroupFile01">Choose Images</label>
+                                </div>
+                            </fieldset>
+                        </div>
             
                                 <div class="failures-container row" style="width: 100%; margin: 0">
             
                                   <div class="failure row" style="width: 100%; margin: 0">
-                                    <div class="form-group col-8">
+                                    <div class="form-group col-12">
                                       <div class="controls">
                                         <label>Failure Reported By the Client</label>
                                         <input type="text" name="failure[0][failure_title]"  placeholder="Defected Steering Pump" class="form-control failure-input" required>
                                       </div>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-4" style="display: none">
                                         <div class="controls">
                                           <label>Price Quotation</label>
-                                          <input type="number" name="failure[0][failure_quotation]" placeholder="300" class="form-control failure-price" required>
+                                          <input type="number" name="failure[0][failure_quotation]" placeholder="300" class="form-control failure-price" value="0">
                                         </div>
                                     </div>
                                   </div>
@@ -328,7 +378,7 @@
                               <div class="form-group col-4 only-invoice-group">
                                 <div class="controls">
                                   <label>Fiscal Code</label>
-                                  <input type="text" name="customer[fiscal_code]" class="form-control only-invoice" placeholder="####" >
+                                  <input type="text" name="customer[fiscal_code]" class="form-control only-invoice fiscal" placeholder="####" >
                                 </div>
                               </div>
                               <div class="form-group col-4 only-invoice-group">
@@ -349,7 +399,10 @@
                               <div class="form-group col-4">
                                 <div class="controls">
                                   <label>Phone</label>
-                                  <input type="number" name="customer[phone]" class="form-control" placeholder="#### (Optional)">
+                                  <input type="number" name="customer[phone]" class="form-control" id="cellphone" placeholder="####" required style="padding-left: 45px" maxlength="10" minlength="9">
+                                  <div style="position: absolute; top: 28px;left: 18px">
+                                    <b>+32</b>
+                                  </div>
                                 </div>
                               </div>
                               <div class="form-group col-4">
@@ -504,32 +557,58 @@
           let year3 = d.getFullYear()
           let month3 = d.getMonth() + 1
           let date3 = d.getDate()
-          
+
+          $error = true;
+          if(year2 > year3){
+              $('#form').submit()
+              whatsapp();
+              $error = false;
+              return false;
+          }
+          if(year2 >= year3 && month2 > month3){
+              $('#form').submit()
+              whatsapp();
+              $error = false;
+              return false;
+          }
+
+
           if(
             year2 >= year3 &&
             month2 >= month3 &&
             datenum2 >= date3
           ){
+            if(datenum2 > date3){
+                $('#form').submit()
+                whatsapp();
+                $error = false;
+                return false;
+            }
             if(
               hr2 > hr3 ||
               (
                 hr2 == hr3 && min2 > min3
               )
             ){
-              $('#form').submit();
-            }else{
-              alert('fail2')
+                $('#form').submit()
+                whatsapp();
+              $error = false;
             }
-            // var url = 'https://web.whatsapp.com/send?phone=92' + $('#cellphone').val() + '&text=Hello%2C%20Thankyou%20' + $('.surname').val() + '%20for%20coming%20to%20us...%0APlease%20login%20to%20your%20portal%20to%20see%20and%20accept%20the%20details%20of%20your%20worksheet%0A%0AUser%3A%20'              + $('#cellphone').val() + '%0APass%3A%20' + $('#license').val();
-            // var win = window.open(url, '_blank');
-            // win.focus();
-            // 
-          }else{
-            alert('fail')
           }
+          if($error){
+            alert('Fail')
+            }
+          
+        
           
         }
     });
+
+    function whatsapp(){
+      var url = 'https://web.whatsapp.com/send?phone=0039' + $('#cellphone').val() + '&text=Hello%2C%20Thankyou%20' + $('.surname').val() + '%20for%20coming%20to%20us...%0APlease%20login%20to%20your%20portal%20to%20see%20and%20accept%20the%20details%20of%20your%20worksheet%0A%0AUser%3A%20' + $('#cellphone').val() + '%0APass%3A%20' + $('#license').val();
+      var win = window.open(url, '_blank');
+      win.focus();
+    }
 
     // Initialize validation
     $(".steps-validation").validate({
@@ -563,6 +642,7 @@
         $('.only-invoice').attr('disabled', false);
         $('.only-invoice').attr('required', true);
         $('.only-invoice-group').css('display', "block");
+        $('.fiscal').attr('required', false)
       }
     }
     disbaleInvoiceFields();
